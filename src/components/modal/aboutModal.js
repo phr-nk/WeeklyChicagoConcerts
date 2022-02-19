@@ -24,7 +24,7 @@ const mobileStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
-  width:"85vw",
+  width:"75vw",
   transform: "translate(-50%, -50%)",
   bgcolor: "white",
   boxShadow: 24,
@@ -35,7 +35,7 @@ export default function BasicModal(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const matches = useMediaQuery("(min-width:400px)");
+  const matches = useMediaQuery("(min-width:480px)");
 
   useEffect(() => {
     
