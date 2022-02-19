@@ -89,7 +89,7 @@ function Day(props) {
             } else {
               return (
                 <Card
-                  sx={{ width: "70vw", height: "45vh" }}
+                  sx={{ width: "70vw", maxHeight: "45vh" }}
                   style={{ backgroundColor: "wheat", marginBottom: "1rem" }}
                 >
                   <CardMedia
