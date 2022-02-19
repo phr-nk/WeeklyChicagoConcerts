@@ -1,0 +1,45 @@
+@media (min-width: 200px) and (max-width: 480px) {
+.venueContainer {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    display:flex;
+    flex-direction: column;
+    
+
+
+}
+}
+
+.venueContainer {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    display:flex;
+    
+
+
+}
+.concertList{   
+    display: flex;
+    max-width: 8-vw;
+    font-size:19px;
+    margin-left: auto;
+    margin-right:auto;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    
+}
+.calenderLine{
+    outline-style: solid;
+    
+}
+.break{
+    display: inline-flex;
+}
+.venueChips{
+    display: 'flex';
+    justify-content: 'center';
+    flex-wrap: 'wrap';
+    margin:2rem;
+   
+}

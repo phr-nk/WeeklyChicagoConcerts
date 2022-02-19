@@ -1,0 +1,57 @@
+
+@media (min-width: 200px) and (max-width: 480px) {
+
+}
+
+.concertImage {
+    max-width: 10vw;
+    margin:1rem;
+}
+.concertLink{
+    color: black;
+    font-style: oblique;
+    text-shadow: 10px;
+}
+
+.venueTitle{
+
+  text-align: start;
+  font-size: smaller;
+    
+}
+.venueHeader{
+    align-content: center;
+    text-align:center;
+    margin-top: 0;
+    margin-left:auto;
+    margin-right:auto;
+    
+}
+.showButton{
+  
+}
+.venueItem{
+  flex-direction: column;
+  outline-style: double;
+  background-color: #f5deb3;
+  margin-bottom: 1rem;
+  
+  
+}
+.showConcerts{
+  
+  justify-self: center;
+    cursor: pointer;
+    
+}
+.venueBox{
+  justify-content: center;
+  margin-bottom:4rem;
+  padding:1rem;
+}
+.card{
+  width: "15vw";
+  height:"35vh";
+  background-color: "wheat";
+  margin-bottom: "1rem";
+}

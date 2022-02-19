@@ -1,0 +1,109 @@
+import * as React from "react";
+
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import AppBar from "@mui/material/AppBar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import BasicModal from "../modal/basicModal";
+
+const settings = ["Subscribe"];
+var logo = require('../../assets/wcc_logo.png')
+export default function MyAppBar() {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [showSubscribe, setShowSubscribe] = React.useState(false);
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+
+  };
+
+  const openModal = () => {
+    console.log(showSubscribe);
+    if(showSubscribe == true)
+    {
+      setShowSubscribe(false);
+      setAnchorElUser(true)
+    }
+    else{
+      setShowSubscribe(true);
+      setAnchorElUser(false)
+    }
+   
+  };
+  const closeModal = () => {
+    setAnchorElUser(true);
+    setShowSubscribe(false);
+  };
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      {showSubscribe ? <BasicModal /> : null}
+      <AppBar position="static" style={{ backgroundColor: "wheat" }}>
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="default"
+            aria-label="menu"
+            onClick={handleOpenUserMenu}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {settings.map((setting) => (
+              <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                <Typography
+                  onClick={openModal}
+                  onClose={openModal}
+                  textAlign="center"
+                >
+                  {setting}
+                </Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          ></Typography>
+           <Box sx={{ flexGrow: 0 }}>
+             <img src={logo} alt="logo" style={{maxWidth:65, marginTop:3}} />
+            </Box>
+      
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+}
