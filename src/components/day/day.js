@@ -52,7 +52,6 @@ function Day(props) {
       </div>
       {open ? (
         props.concerts.map((item, index) => {
-          console.log(convertDate(item.date)) 
           if (
             convertDate(item.date) <=
               lastDayOfWeek(convertDate(props.date), { weekStartsOn: 1 })&&

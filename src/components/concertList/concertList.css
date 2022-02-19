@@ -9,7 +9,13 @@
 
 }
 }
-
+.spinner{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
 .venueContainer {
     margin-left: 1rem;
     margin-right: 1rem;

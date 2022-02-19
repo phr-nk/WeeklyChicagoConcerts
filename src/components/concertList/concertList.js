@@ -4,7 +4,18 @@ import Day from "../day/day";
 import Spinner from "react-spinkit";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
+import {ThemeProvider, createTheme } from "@mui/material";
 import "./concertList.css";
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#ab000e",
+    },
+    
+  },
+});
 
 
 const groupBy = (key) => (array) =>
@@ -18,6 +29,7 @@ function ConcertList(props) {
   const [artists, setArtists] = useState();
   const [venues, setVenues] = useState();
   const [selectedVenue, setVenue] = useState("all");
+  const [selectedVariant, setVariant] = useState("outline");
 
   useEffect(() => {
     const groupByDay = groupBy("dayOfWeek");
@@ -26,11 +38,11 @@ function ConcertList(props) {
     const venuesGrouped = groupByVenue(props.data);
     setVenues(venuesGrouped);
     orderData(daysGrouped);
-    
   }, []);
 
   const handleClick = (chip) => () => {
     setVenue(chip);
+    setVariant("outline");
   };
 
   function returnConcertsForVenue(venue, concerts) {
@@ -58,19 +70,26 @@ function ConcertList(props) {
       });
     });
     setArtists(daysInOrder);
-    console.log(daysInOrder)
   }
 
   if (artists == null) {
-    return <Spinner name="double-bound" />;
+    return (
+      <div>
+        <div className="spinner">
+          <Spinner name="double-bound" />
+        </div>
+      </div>
+    );
   } else {
     return (
       <div>
+        <ThemeProvider theme={theme}>
         <div className="venueChips">
           <Chip
             onClick={handleClick("all")}
             style={{ margin: "0.5rem" }}
             label="All"
+            variant={selectedVenue == "all" && selectedVariant ? "outlined" : "filled"}
           />
           {Object.entries(venues).map(([k, v]) => {
             return (
@@ -78,6 +97,7 @@ function ConcertList(props) {
                 onClick={handleClick(k)}
                 style={{ margin: "0.5rem" }}
                 label={k}
+                variant={selectedVenue == k && selectedVariant ? "outlined" : "filled"}
               />
             );
           })}
@@ -99,6 +119,7 @@ function ConcertList(props) {
             })}
           </div>
         </div>
+        </ThemeProvider>
       </div>
     );
   }
