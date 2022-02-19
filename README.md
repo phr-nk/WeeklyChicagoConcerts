@@ -6,5 +6,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This project relies on the API Chicago Concert API that I built in a previous project.
 
-Link to project https://www.weeklychicagoshows.onrender.com
+Link to project https://weeklychicagoconcerts.onrender.com/
 
