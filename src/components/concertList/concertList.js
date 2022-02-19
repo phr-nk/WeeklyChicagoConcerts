@@ -30,6 +30,7 @@ function ConcertList(props) {
   const [venues, setVenues] = useState();
   const [selectedVenue, setVenue] = useState("all");
   const [selectedVariant, setVariant] = useState("outline");
+  const [selectedColor, setColor] = useState("default")
 
   useEffect(() => {
     const groupByDay = groupBy("dayOfWeek");
@@ -43,6 +44,7 @@ function ConcertList(props) {
   const handleClick = (chip) => () => {
     setVenue(chip);
     setVariant("outline");
+    setColor("warning")
   };
 
   function returnConcertsForVenue(venue, concerts) {
@@ -89,15 +91,17 @@ function ConcertList(props) {
             onClick={handleClick("all")}
             style={{ margin: "0.5rem" }}
             label="All"
-            variant={selectedVenue == "all" && selectedVariant ? "outlined" : "filled"}
-          />
+            variant={selectedVenue == "all" && selectedVariant ? "filled" : "filled"}
+            color={selectedVenue == "all" && selectedColor ? "warning": "default"}
+         />
           {Object.entries(venues).map(([k, v]) => {
             return (
               <Chip
                 onClick={handleClick(k)}
                 style={{ margin: "0.5rem" }}
                 label={k}
-                variant={selectedVenue == k && selectedVariant ? "outlined" : "filled"}
+                variant={selectedVenue == k && selectedVariant ? "filled" : "filled"}
+                color={selectedVenue == k && selectedColor ? "warning": "default"}
               />
             );
           })}

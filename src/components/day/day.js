@@ -6,8 +6,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import "./venue.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import lastDayOfWeek from 'date-fns/lastDayOfWeek'
-
+import lastDayOfWeek from "date-fns/lastDayOfWeek";
+import { Button } from "@mui/material";
 function convertDate(date) {
   var date_parsed = Date.parse(date);
 
@@ -16,16 +16,15 @@ function convertDate(date) {
   return date_formated;
 }
 
-
 function getFirstDayOfWeek(d) {
- // 👇️ clone date object, so we don't mutate it
- const date = new Date(d);
- const day = date.getDay(); // 👉️ get day of week
+  // 👇️ clone date object, so we don't mutate it
+  const date = new Date(d);
+  const day = date.getDay(); // 👉️ get day of week
 
- // 👇️ day of month - day of week (-6 if Sunday), otherwise +1
- const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+  // 👇️ day of month - day of week (-6 if Sunday), otherwise +1
+  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
 
- return new Date(date.setDate(diff));
+  return new Date(date.setDate(diff));
 }
 
 function Day(props) {
@@ -41,11 +40,14 @@ function Day(props) {
     symbol === "+" ? setSymbol("-") : setSymbol("+");
   }
 
-
   return (
     <div className="venueBox">
       <div className="venueTitle">
-        <div className="showConcerts" onClick={handleClick}></div>
+        <div className="showConcerts" onClick={handleClick}>
+          {" "}
+         
+         {" "}
+        </div>
         <Typography align="center" gutterBottom variant="h5">
           {props.venue}
         </Typography>
@@ -54,11 +56,10 @@ function Day(props) {
         props.concerts.map((item, index) => {
           if (
             convertDate(item.date) <=
-              lastDayOfWeek(convertDate(props.date), { weekStartsOn: 1 })&&
-            convertDate(item.date) >= getFirstDayOfWeek(convertDate(props.date)) 
+              lastDayOfWeek(convertDate(props.date), { weekStartsOn: 1 }) &&
+            convertDate(item.date) >= getFirstDayOfWeek(convertDate(props.date))
           ) {
             if (matches) {
-
               return (
                 <Card
                   sx={{ maxWidth: "20vw", maxHeight: "50vh" }}
@@ -115,9 +116,10 @@ function Day(props) {
             }
           }
         })
+      
       ) : (
-        <Typography variant="h4" color="text.secondary">
-          No concerts
+        <Typography variant="h6" color="text.secondary">
+          Open concerts
         </Typography>
       )}
     </div>

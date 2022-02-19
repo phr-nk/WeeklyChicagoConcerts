@@ -106,7 +106,7 @@ function App(props) {
                     setDateObject(newValue);
                     setDate(date.toDateString());
                   }}
-                  renderInput={(params) => <TextField style={{marginTop:6, marginLeft:"0.5rem"}} color="warning" variant="standard" {...params} />}
+                  renderInput={(params) => <TextField style={{marginTop:6, marginLeft:"0.5rem", color:amber}} color="warning" variant="standard" {...params} />}
                 />
               </LocalizationProvider>
               </ThemeProvider>

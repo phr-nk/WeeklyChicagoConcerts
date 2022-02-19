@@ -10,13 +10,15 @@ import AppBar from "@mui/material/AppBar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import BasicModal from "../modal/basicModal";
+import AboutModal from "../modal/aboutModal";
 
-const settings = ["Subscribe"];
+const settings = ["Subscribe", "About"];
 var logo = require('../../assets/wcc_logo.png')
 export default function MyAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [showSubscribe, setShowSubscribe] = React.useState(false);
+  const[showAbout, setShowAbout] = React.useState(false)
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -31,15 +33,25 @@ export default function MyAppBar() {
 
   };
 
-  const openModal = () => {
-    console.log(showSubscribe);
-    if(showSubscribe == true)
+  const openModal = (event) => {
+    console.log(event.currentTarget.innerHTML);
+    var setting = event.currentTarget.innerHTML;
+    if(setting == "About")
     {
-      setShowSubscribe(false);
-      setAnchorElUser(true)
+      setShowAbout(true);
+      setAnchorElUser(false)
     }
     else{
-      setShowSubscribe(true);
+      setShowAbout(false)
+      setAnchorElUser(false)
+    }
+    if (setting == "Subscribe" )
+    {
+      setShowSubscribe(true)
+      setAnchorElUser(false)
+    }
+    else{
+      setShowSubscribe(false);
       setAnchorElUser(false)
     }
    
@@ -47,11 +59,13 @@ export default function MyAppBar() {
   const closeModal = () => {
     setAnchorElUser(true);
     setShowSubscribe(false);
+    setShowAbout(false);
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       {showSubscribe ? <BasicModal /> : null}
+      {showAbout ? <AboutModal/> : null}
       <AppBar position="static" style={{ backgroundColor: "wheat" }}>
         <Toolbar>
           <IconButton
@@ -84,7 +98,6 @@ export default function MyAppBar() {
               <MenuItem key={setting} onClick={handleCloseNavMenu}>
                 <Typography
                   onClick={openModal}
-                  onClose={openModal}
                   textAlign="center"
                 >
                   {setting}
