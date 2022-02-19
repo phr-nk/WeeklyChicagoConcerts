@@ -4,19 +4,16 @@ import Day from "../day/day";
 import Spinner from "react-spinkit";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import {ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material";
 import "./concertList.css";
-
 
 const theme = createTheme({
   palette: {
     primary: {
       main: "#ab000e",
     },
-    
   },
 });
-
 
 const groupBy = (key) => (array) =>
   array.reduce((objectsByKeyValue, obj) => {
@@ -30,7 +27,7 @@ function ConcertList(props) {
   const [venues, setVenues] = useState();
   const [selectedVenue, setVenue] = useState("all");
   const [selectedVariant, setVariant] = useState("outline");
-  const [selectedColor, setColor] = useState("default")
+  const [selectedColor, setColor] = useState("default");
 
   useEffect(() => {
     const groupByDay = groupBy("dayOfWeek");
@@ -44,7 +41,7 @@ function ConcertList(props) {
   const handleClick = (chip) => () => {
     setVenue(chip);
     setVariant("outline");
-    setColor("warning")
+    setColor("warning");
   };
 
   function returnConcertsForVenue(venue, concerts) {
@@ -75,54 +72,56 @@ function ConcertList(props) {
   }
 
   if (artists == null) {
-    return (
-      <div>
-        <div className="spinner">
-          <Spinner name="double-bound" />
-        </div>
-      </div>
-    );
+    return <div></div>;
   } else {
     return (
       <div>
         <ThemeProvider theme={theme}>
-        <div className="venueChips">
-          <Chip
-            onClick={handleClick("all")}
-            style={{ margin: "0.5rem" }}
-            label="All"
-            variant={selectedVenue == "all" && selectedVariant ? "filled" : "filled"}
-            color={selectedVenue == "all" && selectedColor ? "warning": "default"}
-         />
-          {Object.entries(venues).map(([k, v]) => {
-            return (
-              <Chip
-                onClick={handleClick(k)}
-                style={{ margin: "0.5rem" }}
-                label={k}
-                variant={selectedVenue == k && selectedVariant ? "filled" : "filled"}
-                color={selectedVenue == k && selectedColor ? "warning": "default"}
-              />
-            );
-          })}
-        </div>
-        <div className="concertList">
-          <div className="venueContainer">
-            {Object.entries(artists).map(([k, v]) => {
-              if (selectedVenue == "all") {
-                return <Day date={props.date} venue={k} concerts={v} />;
-              } else {
-                return (
-                  <Day
-                    date={props.date}
-                    venue={k}
-                    concerts={returnConcertsForVenue(selectedVenue, v)}
-                  />
-                );
+          <div className="venueChips">
+            <Chip
+              onClick={handleClick("all")}
+              style={{ margin: "0.5rem" }}
+              label="All"
+              variant={
+                selectedVenue == "all" && selectedVariant ? "filled" : "filled"
               }
+              color={
+                selectedVenue == "all" && selectedColor ? "warning" : "default"
+              }
+            />
+            {Object.entries(venues).map(([k, v]) => {
+              return (
+                <Chip
+                  onClick={handleClick(k)}
+                  style={{ margin: "0.5rem" }}
+                  label={k}
+                  variant={
+                    selectedVenue == k && selectedVariant ? "filled" : "filled"
+                  }
+                  color={
+                    selectedVenue == k && selectedColor ? "warning" : "default"
+                  }
+                />
+              );
             })}
           </div>
-        </div>
+          <div className="concertList">
+            <div className="venueContainer">
+              {Object.entries(artists).map(([k, v]) => {
+                if (selectedVenue == "all") {
+                  return <Day date={props.date} venue={k} concerts={v} />;
+                } else {
+                  return (
+                    <Day
+                      date={props.date}
+                      venue={k}
+                      concerts={returnConcertsForVenue(selectedVenue, v)}
+                    />
+                  );
+                }
+              })}
+            </div>
+          </div>
         </ThemeProvider>
       </div>
     );

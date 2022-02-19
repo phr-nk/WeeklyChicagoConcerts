@@ -3,12 +3,13 @@ import axios from "axios";
 import App from "../../App";
 import Spinner from "react-spinkit";
 
+
 const url = "https://chicago-concert-api.herokuapp.com/concerts";
 
 function AppContainer() {
   const [data, setData] = useState("");
   useEffect(() => {
-    console.log("fetching data")
+    console.log("fetching data");
     fetchData().then((res) => {
       setData(res);
     });
@@ -27,7 +28,20 @@ function AppContainer() {
   if (data != "") {
     return <App data={data} />;
   } else {
-    return <Spinner name="double-bound" />;
+    return (
+      <div className="spinner">
+        <Spinner
+        fadeIn="none"
+          style={{
+            transform: "translate(-50%, -50%)",
+            top: "50%",
+            position: "absolute",
+            left: "50%",
+          }}
+          name="double-bound"
+        />
+      </div>
+    );
   }
 }
 
