@@ -38,8 +38,16 @@ export default function MyAppBar() {
     var setting = event.currentTarget.innerHTML;
     if(setting == "About")
     {
-      setShowAbout(true);
-      setAnchorElUser(false)
+      if(showAbout)
+      {
+        setShowAbout(false);
+        setAnchorElUser(false)
+      }
+      else{
+        setShowAbout(true);
+        setAnchorElUser(false)
+      }
+      
     }
     else{
       setShowAbout(false)
@@ -47,8 +55,15 @@ export default function MyAppBar() {
     }
     if (setting == "Subscribe" )
     {
-      setShowSubscribe(true)
-      setAnchorElUser(false)
+      if(showSubscribe){
+        setShowSubscribe(false)
+        setAnchorElUser(false)
+      }
+      else{
+        setShowSubscribe(true)
+        setAnchorElUser(false)
+      }
+     
     }
     else{
       setShowSubscribe(false);
