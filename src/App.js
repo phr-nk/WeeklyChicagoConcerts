@@ -151,7 +151,7 @@ function App(props) {
       <footer className="footer">
         <Typography gutterBottom variant="h6" component="div">
           Designed and Developed by{" "}
-          <Link href="https://frank-lenoci.me" color="inherit">
+          <Link href="https://www.frank-lenoci.me" color="inherit">
             Frank Lenoci
           </Link>
         </Typography>
