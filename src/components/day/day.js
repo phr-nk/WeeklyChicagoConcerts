@@ -32,7 +32,7 @@ function Day(props) {
   const [open, setOpen] = useState("true");
   const [symbol, setSymbol] = useState("-");
 
-  const matches = useMediaQuery("(min-width:400px)");
+  const matches = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {}, []);
 
