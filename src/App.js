@@ -81,7 +81,7 @@ function App(props) {
       //document.body.appendChild(canvas);
       const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
       const a = document.createElement('a')
-      a.setAttribute('download', 'my-image.png')
+      a.setAttribute('download', 'upcoming-concerts-' + date +  '.png')
       a.setAttribute('href', image)
       a.click()
     });
