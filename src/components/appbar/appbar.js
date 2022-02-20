@@ -34,7 +34,6 @@ export default function MyAppBar() {
   };
 
   const openModal = (event) => {
-    console.log(event.currentTarget.innerHTML);
     var setting = event.currentTarget.innerHTML;
     if(setting == "About")
     {
