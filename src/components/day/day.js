@@ -48,9 +48,6 @@ function Day(props) {
          
          {" "}
         </div>
-        <Typography align="center" gutterBottom variant="h6">
-          {props.date}
-        </Typography>
         <Typography align="center" gutterBottom variant="h5">
           {props.venue}
         </Typography>
