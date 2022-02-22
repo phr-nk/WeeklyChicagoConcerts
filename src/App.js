@@ -18,9 +18,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import { useScreenshot, createFileName } from "use-react-screenshot";
 import html2canvas from "html2canvas";
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import amber from "@material-ui/core/colors/amber";
+import useMediaQuery from "@mui/material/useMediaQuery";
 const materialTheme = createTheme({
   palette: {
     primary: amber,
@@ -28,12 +29,10 @@ const materialTheme = createTheme({
 });
 
 function getMonday(d) {
-  
   d = new Date(d);
-  var day = d.getDay(), 
-  diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+  var day = d.getDay(),
+    diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
   return new Date(d.setDate(diff));
-
 }
 
 function App(props) {
@@ -42,6 +41,9 @@ function App(props) {
   const [dateObject, setDateObject] = useState();
   const [width, setWidth] = useState(300);
   const [image, takeScreenShot] = useScreenshot();
+
+  const matches = useMediaQuery("(min-width:600px)");
+
   useEffect(() => {
     var date = getMonday(new Date());
     var string_date = date.toDateString();
@@ -79,11 +81,13 @@ function App(props) {
       useCORS: true,
     }).then((canvas) => {
       //document.body.appendChild(canvas);
-      const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-      const a = document.createElement('a')
-      a.setAttribute('download', 'upcoming-concerts-' + date +  '.png')
-      a.setAttribute('href', image)
-      a.click()
+      const image = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      const a = document.createElement("a");
+      a.setAttribute("download", "upcoming-concerts-" + date + ".png");
+      a.setAttribute("href", image);
+      a.click();
     });
   }
   return (
@@ -92,46 +96,55 @@ function App(props) {
         <BasicModal />
         <MyAppBar></MyAppBar>
         <div id="pageTitle" className="pageTitle">
-          <Typography  variant="h4" component="div">
-            Concerts in Chicago for the week of {" "} 
+          <Typography variant="h4" component="div">
+            Concerts in Chicago for the week of{" "}
             <span className="pageDate">
-              {" "} {" "}
+              {" "}
               <ThemeProvider theme={materialTheme}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  
-                  value={dateObject}
-                  onChange={(newValue) => {
-                    var date = getMonday(newValue)
-                    setDateObject(newValue);
-                    setDate(date.toDateString());
-                  }}
-                  renderInput={(params) => <TextField style={{marginTop:6, marginLeft:"0.5rem", color:amber}} color="warning" variant="standard" {...params} />}
-                />
-              </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    value={dateObject}
+                    onChange={(newValue) => {
+                      var date = getMonday(newValue);
+                      setDateObject(newValue);
+                      setDate(date.toDateString());
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        style={{
+                          marginTop: 6,
+                          marginLeft: "0.5rem",
+                          color: amber,
+                        }}
+                        color="warning"
+                        variant="standard"
+                        {...params}
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
               </ThemeProvider>
             </span>
           </Typography>
-          </div>
-          <Button
-            onClick={backWeek}
-            color="inherit"
-            variant="outlined"
-            endIcon={<ArrowBackIcon />}
-          >
-            Previous Week{" "}
-          </Button>
-          <Button
-            onClick={advanceWeek}
-            color="inherit"
-            variant="outlined"
-            endIcon={<ArrowForwardIcon />}
-          >
-            Next Week
-          </Button>
-          <br></br>
-          {" "}
-          <br></br>
+        </div>
+        <Button
+          onClick={backWeek}
+          color="inherit"
+          variant="outlined"
+          endIcon={<ArrowBackIcon />}
+        >
+          Previous Week{" "}
+        </Button>
+        <Button
+          onClick={advanceWeek}
+          color="inherit"
+          variant="outlined"
+          endIcon={<ArrowForwardIcon />}
+        >
+          Next Week
+        </Button>
+        <br></br> <br></br>
+        {matches ? (
           <Button
             onClick={() => takePicture2()}
             color="inherit"
@@ -140,7 +153,7 @@ function App(props) {
           >
             Download Picture
           </Button>
-       
+        ) : null}
         <header id="concertContent" className="App-header">
           <ConcertList data={props.data} date={date}>
             {" "}
