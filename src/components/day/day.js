@@ -83,6 +83,9 @@ function Day(props) {
                     <Typography variant="body2" color="text.secondary">
                       {convertDate(item.date).toDateString()}
                     </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.time}
+                    </Typography>
                   </CardContent>
                 </Card>
               );
