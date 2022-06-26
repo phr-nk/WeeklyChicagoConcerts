@@ -98,17 +98,17 @@ function ConcertList(props) {
                 selectedDay == "all" && selectedColor ? "warning" : "default"
               }
             />
-            {Object.entries(days).map(([k, v]) => {
+            {Object.entries(venues).map(([k, v]) => {
               return (
                 <Chip
-                  onClick={handleClick(v)}
+                  onClick={handleClick(k)}
                   style={{ margin: "0.5rem" }}
-                  label={v}
+                  label={k}
                   variant={
-                    selectedDay == v && selectedVariant ? "filled" : "filled"
+                    selectedDay == k && selectedVariant ? "filled" : "filled"
                   }
                   color={
-                    selectedDay == v && selectedColor ? "warning" : "default"
+                    selectedDay == k && selectedColor ? "warning" : "default"
                   }
                 />
               );
