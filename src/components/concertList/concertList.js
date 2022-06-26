@@ -80,7 +80,7 @@ function ConcertList(props) {
     setArtists(daysInOrder);
   }
 
-  if (artists === null) {
+  if (artists == null) {
     return <div></div>;
   } else {
     return (
