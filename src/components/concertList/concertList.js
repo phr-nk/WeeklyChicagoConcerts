@@ -21,6 +21,7 @@ var days = [
   "Saturday",
   "Sunday",
 ];
+var daysObj = {"Monday": 1, "Tuesday": 2, "Wednesday": 3, "Thursday": 4, "Friday": 5, "Saturday": 6, "Sunday": 7,  }
 const groupBy = (key) => (array) =>
   array.reduce((objectsByKeyValue, obj) => {
     const value = obj[key];
@@ -44,7 +45,22 @@ function ConcertList(props) {
     setVenues(venuesGrouped);
     orderData(daysGrouped);
   }, []);
-
+  function formatDate(date){
+    var mm = date.getMonth() + 1; // getMonth() is zero-based
+    var dd = date.getDate();
+    var yy = date.getFullYear()
+  
+    return [(mm>9 ? '' : '0') + mm + "/",
+            (dd>9 ? '' : '0') + dd + "/" + yy
+           ].join('');
+  };
+  
+  function getDateFromDay(day) {
+    const current = new Date(props.date);
+    const date = current.getDate() -current.getDay() + day; //1 = monday, 2 = tuesday, etc.
+    const selectedDay = new Date(current.setDate(date));
+    return selectedDay;
+  }
   const handleClick = (chip) => () => {
     setVenue(chip);
     setDay(chip)
@@ -79,6 +95,7 @@ function ConcertList(props) {
     });
     setArtists(daysInOrder);
   }
+
 
   if (artists == null) {
     return <div></div>;
@@ -120,10 +137,12 @@ function ConcertList(props) {
             <div className="venueContainer">
               {Object.entries(artists).map(([k, v]) => {
                 if (selectedVenue === "all") {
-                  return <Day date={props.date} venue={k} concerts={v} />;
+                  return <Day dateObj= {getDateFromDay(daysObj[k])} day={formatDate(getDateFromDay(daysObj[k]))} date={props.date} venue={k} concerts={v} />;
                 } else {
                   return (
                     <Day
+                    dateObj= {getDateFromDay(daysObj[k])}
+                    day={formatDate(getDateFromDay(daysObj[k]))}
                       date={props.date}
                       venue={k}
                       concerts={returnConcertsForVenue(selectedVenue, v)}

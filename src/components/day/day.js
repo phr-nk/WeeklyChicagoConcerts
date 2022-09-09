@@ -8,6 +8,7 @@ import "./venue.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
 import { Button } from "@mui/material";
+import { textAlign } from "@mui/system";
 function convertDate(date) {
   var date_parsed = Date.parse(date);
 
@@ -39,9 +40,12 @@ function Day(props) {
     setOpen(!open);
     symbol === "+" ? setSymbol("-") : setSymbol("+");
   }
+  var currentDate = new Date();
 
-  return (
+ return (
     <div className="venueBox">
+    
+
       <div className="venueTitle">
         <div className="showConcerts" onClick={handleClick}>
           {" "}
@@ -50,8 +54,16 @@ function Day(props) {
         </div>
         <Typography align="center" gutterBottom variant="h5">
           {props.venue}
+          
         </Typography>
+        {((props.dateObj.getDate() ==  currentDate.getDate() && props.dateObj.getMonth() == currentDate.getMonth() &&  props.dateObj.getFullYear() == currentDate.getFullYear())) ? 
+      (
+        <p style={{color: "#ed6c02", textAlign: "center"}}>{props.day}</p>
+      ) : (
+        <p style={{textAlign:"center"}}>{props.day}</p>
+      )
 
+      }
       </div>
       {open ? (
         props.concerts.map((item, index) => {

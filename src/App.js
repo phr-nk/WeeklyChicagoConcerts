@@ -5,9 +5,9 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import MailchimpSubscribe from "react-mailchimp-subscribe";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers';
 import TextField from "@mui/material/TextField";
 import ConcertList from "./components/concertList/concertList";
 import React, { useState, useEffect, createRef } from "react";
@@ -101,7 +101,7 @@ function App(props) {
             <span className="pageDate">
               {" "}
               <ThemeProvider theme={materialTheme}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} >
                   <DatePicker
                     value={dateObject}
                     onChange={(newValue) => {
