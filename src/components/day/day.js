@@ -115,8 +115,8 @@ function Day(props) {
             } else {
               return (
                 <Card
-                  sx={{ width: "70vw",  }}
-                  style={{ backgroundColor: "wheat", marginBottom: "1rem" }}
+                  sx={{ width: "70vw"}}
+                  style={{  marginLeft:"auto",marginRight:"auto", backgroundColor: "wheat", marginBottom: "1rem" }}
                 >
                   <CardMedia
                     component="img"
@@ -140,7 +140,7 @@ function Day(props) {
                       {item.time}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {item.genres}
+                    {item.genres ? (<div><b>Genres:</b> {item.genres}</div>) : (<div></div>)}
                     </Typography>
                   </CardContent>
                 </Card>
