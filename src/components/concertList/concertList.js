@@ -4,6 +4,7 @@ import Chip from "@mui/material/Chip";
 import { ThemeProvider, createTheme } from "@mui/material";
 import "./concertList.css";
 
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -103,6 +104,7 @@ function ConcertList(props) {
     return (
       <div>
         <ThemeProvider theme={theme}>
+         
           <div className="venueChips">
           <Chip
               onClick={handleClick("all")}

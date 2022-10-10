@@ -23,15 +23,15 @@
     align-content: center;
     text-align:center;
     margin-top: 0;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left:3rem;
+    margin-right:3rem;
     
 }
 .showButton{
   
 }
 .venueItem{
-  flex-direction: column;
+
   outline-style: double;
   background-color: #f5deb3;
   margin-bottom: 1rem;
@@ -45,9 +45,10 @@
     
 }
 .venueBox{
-  justify-content: center;
+ 
   margin-bottom:4rem;
   padding:1rem;
+ 
 }
 .card{
   width: "15vw";

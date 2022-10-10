@@ -37,6 +37,8 @@ body{
   
   font-size: calc(10px + 2vmin);
   color: black;
+  margin-left:4rem;
+  margin-right: 4rem;
 }
 
 .App-link {
