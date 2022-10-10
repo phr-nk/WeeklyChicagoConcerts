@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
+import ListSubheader from '@mui/material/ListSubheader';
+import ListItemButton from '@mui/material/ListItemButton';
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -9,6 +11,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
 import { Button } from "@mui/material";
 import { textAlign } from "@mui/system";
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import List from '@mui/material/List';
 function convertDate(date) {
   var date_parsed = Date.parse(date);
 
@@ -29,19 +36,19 @@ function getFirstDayOfWeek(d) {
 }
 
 function Day(props) {
-  const [open, setOpen] = useState("true");
+  const [open, setOpen] = useState(true);
   const [symbol, setSymbol] = useState("-");
 
   const matches = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {}, []);
 
-  function handleClick(event) {
-    setOpen(!open);
-    symbol === "+" ? setSymbol("-") : setSymbol("+");
-  }
+  
   var currentDate = new Date();
 
+  const handleClick = () => {
+    setOpen(!open);
+  };
  return (
     <div className="venueBox">
     
@@ -65,8 +72,7 @@ function Day(props) {
 
       }
       </div>
-      {open ? (
-        props.concerts.map((item, index) => {
+        {props.concerts.map((item, index) => {
           if (
             convertDate(item.date) <=
               lastDayOfWeek(convertDate(props.date), { weekStartsOn: 1 }) &&
@@ -75,7 +81,7 @@ function Day(props) {
             if (matches) {
               return (
                 <Card
-                  sx={{ maxWidth: "20vw", maxHeight: "50vh" }}
+                  sx={{ maxWidth: "12vw",  }}
                   style={{ backgroundColor: "wheat", marginBottom: "1rem" }}
                 >
                   <CardMedia
@@ -86,7 +92,7 @@ function Day(props) {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      <a className="concertLink" href={item.link}>
+                      <a className="concertLink" href={item.link} target="_blank">
                         {item.name}
                       </a>
                     </Typography>
@@ -98,6 +104,10 @@ function Day(props) {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {item.time}
+                    </Typography>
+                    <br></br>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.genres ? (<div><b>Genres:</b> {item.genres}</div>) : (<div></div>)}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -105,7 +115,7 @@ function Day(props) {
             } else {
               return (
                 <Card
-                  sx={{ width: "70vw", maxHeight: "45vh" }}
+                  sx={{ width: "70vw",  }}
                   style={{ backgroundColor: "wheat", marginBottom: "1rem" }}
                 >
                   <CardMedia
@@ -116,7 +126,7 @@ function Day(props) {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      <a className="concertLink" href={item.link}>
+                      <a className="concertLink" href={item.link} target="_blank">
                         {item.name}
                       </a>
                     </Typography>
@@ -129,18 +139,16 @@ function Day(props) {
                     <Typography variant="body2" color="text.secondary">
                       {item.time}
                     </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.genres}
+                    </Typography>
                   </CardContent>
                 </Card>
               );
             }
           }
         })
-      
-      ) : (
-        <Typography variant="h6" color="text.secondary">
-          Open concerts
-        </Typography>
-      )}
+      }
     </div>
   );
 }
