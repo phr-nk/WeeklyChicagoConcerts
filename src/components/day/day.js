@@ -41,11 +41,13 @@ function Day(props) {
 
   const matches = useMediaQuery("(min-width:600px)");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+   
+  }, []);
 
   
   var currentDate = new Date();
-
+  console.log(props.genres)
   const handleClick = () => {
     setOpen(!open);
   };
@@ -78,74 +80,79 @@ function Day(props) {
               lastDayOfWeek(convertDate(props.date), { weekStartsOn: 1 }) &&
             convertDate(item.date) >= getFirstDayOfWeek(convertDate(props.date))
           ) {
-            if (matches) {
-              return (
-                <Card
-                  sx={{ maxWidth: "12vw",  }}
-                  style={{ backgroundColor: "wheat", marginBottom: "1rem" }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={item.image}
-                    alt="concert image"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      <a className="concertLink" href={item.link} target="_blank">
-                        {item.name}
-                      </a>
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.venue}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {convertDate(item.date).toDateString()}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.time}
-                    </Typography>
-                    <br></br>
-                    <Typography variant="body2" color="text.secondary">
+            var genreArray = item.genres.split(",")
+            if(props.genres.includes("all") || props.genres.some(item => genreArray.includes(item)))
+            {
+              if (matches) {
+                return (
+                  <Card
+                    sx={{ maxWidth: "12vw",  }}
+                    style={{ backgroundColor: "wheat", marginBottom: "1rem" }}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={item.image}
+                      alt="concert image"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        <a className="concertLink" href={item.link} target="_blank">
+                          {item.name}
+                        </a>
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {item.venue}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {convertDate(item.date).toDateString()}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {item.time}
+                      </Typography>
+                      <br></br>
+                      <Typography variant="body2" color="text.secondary">
+                        {item.genres ? (<div><b>Genres:</b> {item.genres}</div>) : (<div></div>)}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                );
+              } else {
+                return (
+                  <Card
+                    sx={{ width: "70vw"}}
+                    style={{  marginLeft:"auto",marginRight:"auto", backgroundColor: "wheat", marginBottom: "1rem" }}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={item.image}
+                      alt="concert image"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        <a className="concertLink" href={item.link} target="_blank">
+                          {item.name}
+                        </a>
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {item.venue}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {convertDate(item.date).toDateString()}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {item.time}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
                       {item.genres ? (<div><b>Genres:</b> {item.genres}</div>) : (<div></div>)}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              );
-            } else {
-              return (
-                <Card
-                  sx={{ width: "70vw"}}
-                  style={{  marginLeft:"auto",marginRight:"auto", backgroundColor: "wheat", marginBottom: "1rem" }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={item.image}
-                    alt="concert image"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      <a className="concertLink" href={item.link} target="_blank">
-                        {item.name}
-                      </a>
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.venue}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {convertDate(item.date).toDateString()}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.time}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                    {item.genres ? (<div><b>Genres:</b> {item.genres}</div>) : (<div></div>)}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              );
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                );
+              }
             }
+         
           }
         })
       }

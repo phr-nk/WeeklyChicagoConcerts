@@ -35,10 +35,12 @@ function getMonday(d) {
   return new Date(d.setDate(diff));
 }
 
+
 function App(props) {
   const ref = createRef(null);
   const [date, setDate] = useState();
   const [dateObject, setDateObject] = useState();
+  
   const [width, setWidth] = useState(300);
   const [image, takeScreenShot] = useScreenshot();
 
@@ -47,9 +49,10 @@ function App(props) {
   useEffect(() => {
     var date = getMonday(new Date());
     var string_date = date.toDateString();
+   
     setDate(string_date);
     setDateObject(date);
-    console.log(date);
+
   }, []);
   function advanceWeek() {
     var weekAhead = new Date(dateObject);
@@ -90,6 +93,8 @@ function App(props) {
       a.click();
     });
   }
+
+
   return (
     <div id="app" className="App">
       <div className="content">
