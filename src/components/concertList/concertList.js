@@ -220,7 +220,7 @@ function ConcertList(props) {
               );
             })}
           </div>
-          <FormControl sx={{ minWidth: 120 }}>
+          <FormControl sx={{ minWidth: 120, maxWidth: 800 }}>
             <InputLabel id="multiple-chip-label">Genres</InputLabel>
             <Select
               multiple
@@ -240,6 +240,7 @@ function ConcertList(props) {
                       key={value}
                       label={value}
                       clickable
+                      style={{ margin: "0.2rem" }}
                       deleteIcon={
                         <CancelIcon
                           onMouseDown={(event) => event.stopPropagation()}
