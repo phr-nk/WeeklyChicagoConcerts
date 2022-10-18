@@ -4,15 +4,14 @@ import Chip from "@mui/material/Chip";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import { ThemeProvider, createTheme, Typography } from "@mui/material";
-import {Select} from "@material-ui/core";
+import Select from "@mui/material/Select";
 import CancelIcon from "@material-ui/icons/Cancel";
-import Checkbox from "@material-ui/core/Checkbox";
+import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
 import ListItemText from "@material-ui/core/ListItemText";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import InputLabel from '@mui/material/InputLabel';
+import InputLabel from "@mui/material/InputLabel";
 import _without from "lodash/without";
-import InputBase from '@mui/material/InputBase';
 import "./concertList.css";
 
 import GenreSelect from "../genreSelect/genreSelect";
@@ -113,7 +112,7 @@ function ConcertList(props) {
     const daysGrouped = groupByDay(props.data);
     const venuesGrouped = groupByVenue(props.data);
     // const genresGrouped = groupByGenres(genres);
-    console.log(g);
+    // console.log(g);
     setGenres(g);
 
     setVenues(venuesGrouped);
@@ -178,7 +177,9 @@ function ConcertList(props) {
   const handleChange = (event) => {
     setGenreList((current) => [...event.target.value]);
   };
-
+  const handleClose = (event) => {
+    console.log("Closed");
+  };
   const handleDelete = (e, value) => {
     e.preventDefault();
     console.log("clicked delete");
@@ -219,15 +220,17 @@ function ConcertList(props) {
               );
             })}
           </div>
-          <FormControl style={{ minWidth: 120, maxWidth: 300 }}>
-          <InputLabel id="demo-multiple-chip-label">Genres</InputLabel>
+          <FormControl sx={{ minWidth: 120 }}>
+            <InputLabel id="multiple-chip-label">Genres</InputLabel>
             <Select
               multiple
               color="warning"
-              variant="outlined"
+              label="Genres"
+              variant="filled"
               MenuProps={MenuProps}
               value={genreList}
               onChange={handleChange}
+              onClose={handleClose}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               IconComponent={KeyboardArrowDownIcon}
               renderValue={(selected) => (

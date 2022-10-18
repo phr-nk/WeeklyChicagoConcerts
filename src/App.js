@@ -5,9 +5,9 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import MailchimpSubscribe from "react-mailchimp-subscribe";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers";
 import TextField from "@mui/material/TextField";
 import ConcertList from "./components/concertList/concertList";
 import React, { useState, useEffect, createRef } from "react";
@@ -35,12 +35,11 @@ function getMonday(d) {
   return new Date(d.setDate(diff));
 }
 
-
 function App(props) {
   const ref = createRef(null);
   const [date, setDate] = useState();
   const [dateObject, setDateObject] = useState();
-  
+
   const [width, setWidth] = useState(300);
   const [image, takeScreenShot] = useScreenshot();
 
@@ -49,10 +48,9 @@ function App(props) {
   useEffect(() => {
     var date = getMonday(new Date());
     var string_date = date.toDateString();
-   
+
     setDate(string_date);
     setDateObject(date);
-
   }, []);
   function advanceWeek() {
     var weekAhead = new Date(dateObject);
@@ -94,7 +92,6 @@ function App(props) {
     });
   }
 
-
   return (
     <div id="app" className="App">
       <div className="content">
@@ -106,7 +103,7 @@ function App(props) {
             <span className="pageDate">
               {" "}
               <ThemeProvider theme={materialTheme}>
-                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     value={dateObject}
                     onChange={(newValue) => {
