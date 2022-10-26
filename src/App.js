@@ -5,9 +5,9 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import MailchimpSubscribe from "react-mailchimp-subscribe";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers";
 import TextField from "@mui/material/TextField";
 import ConcertList from "./components/concertList/concertList";
 import React, { useState, useEffect, createRef } from "react";
@@ -22,6 +22,13 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import amber from "@material-ui/core/colors/amber";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import * as Scroll from "react-scroll"
+ 
+var LinkScroll = Scroll.Link
+
+var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+
 const materialTheme = createTheme({
   palette: {
     primary: amber,
@@ -35,12 +42,10 @@ function getMonday(d) {
   return new Date(d.setDate(diff));
 }
 
-
 function App(props) {
-  const ref = createRef(null);
   const [date, setDate] = useState();
   const [dateObject, setDateObject] = useState();
-  
+
   const [width, setWidth] = useState(300);
   const [image, takeScreenShot] = useScreenshot();
 
@@ -49,10 +54,10 @@ function App(props) {
   useEffect(() => {
     var date = getMonday(new Date());
     var string_date = date.toDateString();
-   
     setDate(string_date);
     setDateObject(date);
-
+    console.log(date.getDay())
+    
   }, []);
   function advanceWeek() {
     var weekAhead = new Date(dateObject);
@@ -94,7 +99,6 @@ function App(props) {
     });
   }
 
-
   return (
     <div id="app" className="App">
       <div className="content">
@@ -106,7 +110,7 @@ function App(props) {
             <span className="pageDate">
               {" "}
               <ThemeProvider theme={materialTheme}>
-                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     value={dateObject}
                     onChange={(newValue) => {
@@ -158,7 +162,13 @@ function App(props) {
           >
             Download Picture
           </Button>
-        ) : null}
+        ) : (
+          <Button color="inherit"
+          variant="outlined"
+          endIcon={<ArrowDownIcon />}>
+          <LinkScroll activeClass="active" to={days[new Date().getDay()]} spy={true} smooth={true}>Take me to the current day</LinkScroll>
+          </Button>
+        )}
         <header id="concertContent" className="App-header">
           <ConcertList data={props.data} date={date}>
             {" "}
