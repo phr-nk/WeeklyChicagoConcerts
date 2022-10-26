@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef} from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import ListSubheader from "@mui/material/ListSubheader";
@@ -11,11 +11,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
 import { Button } from "@mui/material";
 import { textAlign } from "@mui/system";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import List from "@mui/material/List";
+
+var Scroll   = require('react-scroll');
+var ElementScroll  = Scroll.Element;
+
+
 function convertDate(date) {
   var date_parsed = Date.parse(date);
 
@@ -38,6 +38,7 @@ function getFirstDayOfWeek(d) {
 function Day(props) {
   const [open, setOpen] = useState(true);
   const [symbol, setSymbol] = useState("-");
+  const ref = useRef(null);
 
   const matches = useMediaQuery("(min-width:600px)");
 
@@ -53,9 +54,12 @@ function Day(props) {
         <div className="showConcerts" onClick={handleClick}>
           {" "}
         </div>
-        <Typography align="center" gutterBottom variant="h5">
+        <ElementScroll name={props.venue}/>
+        <Typography  ref={ref} align="center" gutterBottom variant="h5">
           {props.venue}
         </Typography>
+   
+      
         {props.dateObj.getDate() == currentDate.getDate() &&
         props.dateObj.getMonth() == currentDate.getMonth() &&
         props.dateObj.getFullYear() == currentDate.getFullYear() ? (
@@ -187,6 +191,7 @@ function Day(props) {
           }
         }
       })}
+
     </div>
   );
 }
