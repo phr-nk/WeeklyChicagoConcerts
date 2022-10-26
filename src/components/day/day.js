@@ -11,22 +11,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
 import { Button } from "@mui/material";
 import { textAlign } from "@mui/system";
-<<<<<<< HEAD
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
+
 var Scroll   = require('react-scroll');
 var ElementScroll  = Scroll.Element;
 
-=======
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import List from "@mui/material/List";
->>>>>>> cee9b8e30b6c32aeff97c809961b2b3e4764a85b
+
 function convertDate(date) {
   var date_parsed = Date.parse(date);
 
@@ -61,13 +50,7 @@ function Day(props) {
   };
   return (
     <div className="venueBox">
-<<<<<<< HEAD
-    
-
-      <div className="venueTitle" >
-=======
       <div className="venueTitle">
->>>>>>> cee9b8e30b6c32aeff97c809961b2b3e4764a85b
         <div className="showConcerts" onClick={handleClick}>
           {" "}
         </div>
@@ -75,17 +58,8 @@ function Day(props) {
         <Typography  ref={ref} align="center" gutterBottom variant="h5">
           {props.venue}
         </Typography>
-<<<<<<< HEAD
    
-        {((props.dateObj.getDate() ==  currentDate.getDate() && props.dateObj.getMonth() == currentDate.getMonth() &&  props.dateObj.getFullYear() == currentDate.getFullYear())) ? 
-      (
-        <p style={{color: "#ed6c02", textAlign: "center"}}>{props.day}</p>
-      ) : (
-        <p style={{textAlign:"center"}}>{props.day}</p>
-      )
-
-      }
-=======
+      
         {props.dateObj.getDate() == currentDate.getDate() &&
         props.dateObj.getMonth() == currentDate.getMonth() &&
         props.dateObj.getFullYear() == currentDate.getFullYear() ? (
@@ -93,7 +67,6 @@ function Day(props) {
         ) : (
           <p style={{ textAlign: "center" }}>{props.day}</p>
         )}
->>>>>>> cee9b8e30b6c32aeff97c809961b2b3e4764a85b
       </div>
       {props.concerts.map((item, index) => {
         if (
@@ -218,6 +191,7 @@ function Day(props) {
           }
         }
       })}
+
     </div>
   );
 }

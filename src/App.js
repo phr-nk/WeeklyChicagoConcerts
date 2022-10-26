@@ -54,16 +54,13 @@ function App(props) {
   useEffect(() => {
     var date = getMonday(new Date());
     var string_date = date.toDateString();
-<<<<<<< HEAD
     setDate(string_date);
     setDateObject(date);
     console.log(date.getDay())
     
-=======
 
     setDate(string_date);
     setDateObject(date);
->>>>>>> cee9b8e30b6c32aeff97c809961b2b3e4764a85b
   }, []);
   function advanceWeek() {
     var weekAhead = new Date(dateObject);
