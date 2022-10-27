@@ -73,7 +73,7 @@ function splitGenres(shows) {
       }
     }
   }
-
+  genresWhole = [...genresWhole].sort();
   genresWhole.forEach((v) => {
     var genre = v;
     genresObj[genre] = [];
