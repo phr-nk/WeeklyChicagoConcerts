@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -13,12 +13,13 @@ import BasicModal from "../modal/basicModal";
 import AboutModal from "../modal/aboutModal";
 
 const settings = ["Subscribe", "About"];
-var logo = require('../../assets/wcc_logo.png')
+var logo = require("../../assets/wcc_logo.png");
 export default function MyAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [showSubscribe, setShowSubscribe] = React.useState(false);
-  const[showAbout, setShowAbout] = React.useState(false)
+  const [showAbout, setShowAbout] = React.useState(false);
+  const matches = useMediaQuery("(min-width:600px)");
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -30,45 +31,34 @@ export default function MyAppBar() {
   };
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-
   };
 
   const openModal = (event) => {
     var setting = event.currentTarget.innerHTML;
-    if(setting == "About")
-    {
-      if(showAbout)
-      {
+    if (setting == "About") {
+      if (showAbout) {
         setShowAbout(false);
-        setAnchorElUser(false)
-      }
-      else{
+        setAnchorElUser(false);
+      } else {
         setShowAbout(true);
-        setAnchorElUser(false)
+        setAnchorElUser(false);
       }
-      
+    } else {
+      setShowAbout(false);
+      setAnchorElUser(false);
     }
-    else{
-      setShowAbout(false)
-      setAnchorElUser(false)
-    }
-    if (setting == "Subscribe" )
-    {
-      if(showSubscribe){
-        setShowSubscribe(false)
-        setAnchorElUser(false)
+    if (setting == "Subscribe") {
+      if (showSubscribe) {
+        setShowSubscribe(false);
+        setAnchorElUser(false);
+      } else {
+        setShowSubscribe(true);
+        setAnchorElUser(false);
       }
-      else{
-        setShowSubscribe(true)
-        setAnchorElUser(false)
-      }
-     
-    }
-    else{
+    } else {
       setShowSubscribe(false);
-      setAnchorElUser(false)
+      setAnchorElUser(false);
     }
-   
   };
   const closeModal = () => {
     setAnchorElUser(true);
@@ -79,56 +69,66 @@ export default function MyAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       {showSubscribe ? <BasicModal /> : null}
-      {showAbout ? <AboutModal/> : null}
+      {showAbout ? <AboutModal /> : null}
       <AppBar position="static" style={{ backgroundColor: "wheat" }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="default"
-            aria-label="menu"
-            onClick={handleOpenUserMenu}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                <Typography
-                  onClick={openModal}
-                  textAlign="center"
-                >
-                  {setting}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Menu>
+          {!matches ? (
+            <div>
+              <IconButton
+                size="large"
+                edge="start"
+                color="default"
+                aria-label="menu"
+                onClick={handleOpenUserMenu}
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                    <Typography onClick={openModal} textAlign="center">
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </div>
+          ) : (
+            <div
+              style={{ display: "flex", flexDirection: "row", color: "black" }}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                  <Typography onClick={openModal}>{setting}</Typography>
+                </MenuItem>
+              ))}
+            </div>
+          )}
 
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
-           <Box sx={{ flexGrow: 0 }}>
-             <img src={logo} alt="logo" style={{maxWidth:65, marginTop:3}} />
-            </Box>
-      
+          <Box sx={{ flexGrow: 0 }}>
+            <img src={logo} alt="logo" style={{ maxWidth: 65, marginTop: 3 }} />
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

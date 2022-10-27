@@ -22,12 +22,19 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import amber from "@material-ui/core/colors/amber";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import * as Scroll from "react-scroll"
- 
-var LinkScroll = Scroll.Link
+import * as Scroll from "react-scroll";
 
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+var LinkScroll = Scroll.Link;
 
+var days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 const materialTheme = createTheme({
   palette: {
@@ -56,8 +63,7 @@ function App(props) {
     var string_date = date.toDateString();
     setDate(string_date);
     setDateObject(date);
-    console.log(date.getDay())
-    
+    console.log(date.getDay());
 
     setDate(string_date);
     setDateObject(date);
@@ -166,10 +172,19 @@ function App(props) {
             Download Picture
           </Button>
         ) : (
-          <Button color="inherit"
-          variant="outlined"
-          endIcon={<ArrowDownIcon />}>
-          <LinkScroll activeClass="active" to={days[new Date().getDay()]} spy={true} smooth={true}>Take me to the current day</LinkScroll>
+          <Button
+            color="inherit"
+            variant="outlined"
+            endIcon={<ArrowDownIcon />}
+          >
+            <LinkScroll
+              activeClass="active"
+              to={days[new Date().getDay()]}
+              spy={true}
+              smooth={true}
+            >
+              Take me to the current day
+            </LinkScroll>
           </Button>
         )}
         <header id="concertContent" className="App-header">
