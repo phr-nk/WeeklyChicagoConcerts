@@ -8,9 +8,9 @@ import { Link } from "@mui/material";
 
 const style = {
   position: "absolute",
-  display:"flex",
+  display: "flex",
   flexDirection: "column",
-  
+
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -19,12 +19,12 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-var logo = require('../../assets/wcc_logo.png')
+var logo = require("../../assets/wcc_logo.png");
 const mobileStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
-  width:"75vw",
+  width: "75vw",
   transform: "translate(-50%, -50%)",
   bgcolor: "white",
   boxShadow: 24,
@@ -37,10 +37,7 @@ export default function BasicModal(props) {
 
   const matches = useMediaQuery("(min-width:480px)");
 
-  useEffect(() => {
-    
-  }, []);
-
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -52,42 +49,63 @@ export default function BasicModal(props) {
       >
         {!matches ? (
           <Box sx={mobileStyle}>
-              <Typography  variant="h6" component="h2">
-             This website was created by <Link href="https://www.frank-lenoci.me">Frank Lenoci</Link>, mostly for the purpose of learning, but to also make a tool that could be used by others to simply find concerts at some of my favorite Chicago music venues.
+            <Typography variant="h6" component="h2">
+              This website was created by{" "}
+              <Link href="https://www.frank-lenoci.me">Frank Lenoci</Link>,
+              mostly for the purpose of learning, but to also make a tool that
+              could be used by others to simply find concerts at some of my
+              favorite Chicago music venues.
             </Typography>
             <br></br>
-            <Typography  variant="h6" component="h2">
-            Some of the tools used to build this site were React for the front-end, Material UI for the style components, and Render.com for hosting. 
+            <Typography variant="h6" component="h2">
+              Some of the tools used to build this site were React for the
+              front-end, Material UI for the style components, and Render.com
+              for hosting.
             </Typography>
             <br></br>
-            <Typography  variant="h6" component="h2">
-            This project also relies heavily on the API (application programming interface) I made in a previous project.
+            <Typography variant="h6" component="h2">
+              This project also relies heavily on the API (application
+              programming interface) I made in a previous project.
             </Typography>
             <br></br>
-            <Typography  variant="h6" component="h2">
-             You can find out more about that project <Link href="https://github.com/phr-nk/ChicagoConcertsAPI">here</Link>.
+            <Typography variant="h6" component="h2">
+              You can find out more about that project{" "}
+              <Link href="https://github.com/phr-nk/ChicagoConcertsAPI">
+                here
+              </Link>
+              .
             </Typography>
           </Box>
         ) : (
           <Box sx={style}>
-               <Typography id="modal-modal-title" variant="h6" component="h2">
-             This website was created by  <Link href="https://www.frank-lenoci.me">Frank Lenoci</Link>, mostly for the purpose of learning, but to also make a tool that could be used by others to simply find concerts at some of my favorite Chicago music venues. 
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              This website was created by{" "}
+              <Link href="https://www.frank-lenoci.me">Frank Lenoci</Link>,
+              mostly for the purpose of learning, but to also make a tool that
+              could be used by others to simply find concerts at some of my
+              favorite Chicago music venues.
             </Typography>
             <br></br>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-            Some of the tools used to build this site were React for the front-end, Material UI for the style components, and Render.com for hosting. 
+              Some of the tools used to build this site were React for the
+              front-end, Material UI for the style components, and Render.com
+              for hosting.
             </Typography>
             <br></br>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-            This project also relies heavily on the API (application programming interface) I made in a previous project.
+              This project also relies heavily on the API (application
+              programming interface) I made in a previous project.
             </Typography>
             <br></br>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-             You can find out more about that project <Link href="https://github.com/phr-nk/ChicagoConcertsAPI">here</Link>.
+              You can find out more about that project{" "}
+              <Link href="https://github.com/phr-nk/ChicagoConcertsAPI">
+                here
+              </Link>
+              .
             </Typography>
           </Box>
         )}
-        
       </Modal>
     </div>
   );
