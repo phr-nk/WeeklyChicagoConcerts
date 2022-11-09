@@ -9,9 +9,9 @@ import { borderColor } from "@mui/system";
 
 const style = {
   position: "absolute",
-  display:"flex",
+  display: "flex",
   flexDirection: "column",
-  
+
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -20,10 +20,10 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-var logo = require('../../assets/wcc_logo.png')
+var logo = require("../../assets/wcc_logo.png");
 const mobileStyle = {
   position: "absolute",
-  display:"flex",
+  display: "flex",
   flexDirection: "column",
   top: "50%",
   left: "50%",
@@ -39,10 +39,7 @@ export default function BasicModal(props) {
 
   const matches = useMediaQuery("(min-width:400px)");
 
-  useEffect(() => {
-    
-  }, []);
-
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -52,30 +49,46 @@ export default function BasicModal(props) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-      
         {!matches ? (
           <Box sx={mobileStyle}>
-            
-              <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography id="modal-modal-title" variant="h6" component="h2">
               Subscribe to recieve emails on upcoming Chicago concerts!
             </Typography>
             <MailChimp></MailChimp>
             <br></br>
-            <Button style={{color: "#ed6c02", borderColor: "#ed6c02"}} variant="outlined" onClick={handleClose}>Close</Button>
+            <Button
+              style={{ color: "#ed6c02", borderColor: "#ed6c02" }}
+              variant="outlined"
+              onClick={handleClose}
+            >
+              Close
+            </Button>
           </Box>
         ) : (
           <Box sx={style}>
-            <img src={logo} style={{width:250,height:250,justifySelf: "center",alignSelf: "center",}}></img>
+            <img
+              src={logo}
+              style={{
+                width: 250,
+                height: 250,
+                justifySelf: "center",
+                alignSelf: "center",
+              }}
+            ></img>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Subscribe to recieve weekly emails on upcoming Chicago concerts!
             </Typography>
             <MailChimp></MailChimp>
             <br></br>
-            <Button style={{color: "#ed6c02", borderColor: "#ed6c02"}}  variant="outlined" onClick={handleClose}>Close</Button>
-
+            <Button
+              style={{ color: "#ed6c02", borderColor: "#ed6c02" }}
+              variant="outlined"
+              onClick={handleClose}
+            >
+              Close
+            </Button>
           </Box>
         )}
-        
       </Modal>
     </div>
   );

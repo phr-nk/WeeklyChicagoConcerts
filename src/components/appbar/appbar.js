@@ -14,6 +14,7 @@ import AboutModal from "../modal/aboutModal";
 
 const settings = ["Subscribe", "About"];
 var logo = require("../../assets/wcc_logo.png");
+var logo2 = require("../../assets/wcc_logo_oval.png");
 export default function MyAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -126,8 +127,9 @@ export default function MyAppBar() {
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
+
           <Box sx={{ flexGrow: 0 }}>
-            <img src={logo} alt="logo" style={{ maxWidth: 65, marginTop: 3 }} />
+            <img src={logo} alt="logo" style={{ maxWidth: 80, marginTop: 3 }} />
           </Box>
         </Toolbar>
       </AppBar>

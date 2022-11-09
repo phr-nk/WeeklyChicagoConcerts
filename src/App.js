@@ -72,6 +72,7 @@ function App(props) {
     var weekAhead = new Date(dateObject);
     weekAhead.setDate(dateObject.getDate() + 7);
     setDateObject(weekAhead);
+
     setDate(weekAhead.toDateString());
   }
   function backWeek() {
@@ -124,7 +125,7 @@ function App(props) {
                     value={dateObject}
                     onChange={(newValue) => {
                       var date = getMonday(newValue);
-                      setDateObject(newValue);
+                      setDateObject(new Date(newValue));
                       setDate(date.toDateString());
                     }}
                     renderInput={(params) => (
@@ -145,23 +146,26 @@ function App(props) {
             </span>
           </Typography>
         </div>
-        <Button
-          onClick={backWeek}
-          color="inherit"
-          variant="outlined"
-          endIcon={<ArrowBackIcon />}
-        >
-          Previous Week{" "}
-        </Button>
-        <Button
-          onClick={advanceWeek}
-          color="inherit"
-          variant="outlined"
-          endIcon={<ArrowForwardIcon />}
-        >
-          Next Week
-        </Button>
-        <br></br> <br></br>
+        <div>
+          <Button
+            onClick={backWeek}
+            color="inherit"
+            variant="outlined"
+            endIcon={<ArrowBackIcon />}
+          >
+            Previous Week
+          </Button>
+          {"  "}
+          <Button
+            onClick={advanceWeek}
+            color="inherit"
+            variant="outlined"
+            endIcon={<ArrowForwardIcon />}
+          >
+            Next Week
+          </Button>
+        </div>
+        <br></br>
         {matches ? (
           <Button
             onClick={() => takePicture2()}
