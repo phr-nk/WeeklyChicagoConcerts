@@ -66,7 +66,7 @@ const CustomForm = ({ status, message, onValidated }) => {
       />
 
       <Button
-        style={{ marginTop: "0.5rem", float: "right" }}
+        style={{ marginTop: "0.5rem", float: "right", width: "100%" }}
         color="warning"
         variant="contained"
         onClick={submit}
