@@ -63,10 +63,6 @@ function App(props) {
     var string_date = date.toDateString();
     setDate(string_date);
     setDateObject(date);
-    console.log(date.getDay());
-
-    setDate(string_date);
-    setDateObject(date);
   }, []);
   function advanceWeek() {
     var weekAhead = new Date(dateObject);

@@ -1,20 +1,14 @@
-import React, { useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import ListSubheader from "@mui/material/ListSubheader";
-import ListItemButton from "@mui/material/ListItemButton";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import "./venue.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
-import { Button } from "@mui/material";
-import { textAlign } from "@mui/system";
 
-var Scroll   = require('react-scroll');
-var ElementScroll  = Scroll.Element;
-
+var Scroll = require("react-scroll");
+var ElementScroll = Scroll.Element;
 
 function convertDate(date) {
   var date_parsed = Date.parse(date);
@@ -54,12 +48,11 @@ function Day(props) {
         <div className="showConcerts" onClick={handleClick}>
           {" "}
         </div>
-        <ElementScroll name={props.venue}/>
-        <Typography  ref={ref} align="center" gutterBottom variant="h5">
+        <ElementScroll name={props.venue} />
+        <Typography ref={ref} align="center" gutterBottom variant="h5">
           {props.venue}
         </Typography>
-   
-      
+
         {props.dateObj.getDate() == currentDate.getDate() &&
         props.dateObj.getMonth() == currentDate.getMonth() &&
         props.dateObj.getFullYear() == currentDate.getFullYear() ? (
@@ -70,9 +63,9 @@ function Day(props) {
       </div>
       {props.concerts.map((item, index) => {
         if (
-          convertDate(item.date) <=
+          new Date(item.date) <=
             lastDayOfWeek(convertDate(props.date), { weekStartsOn: 1 }) &&
-          convertDate(item.date) >= getFirstDayOfWeek(convertDate(props.date))
+          new Date(item.date) >= getFirstDayOfWeek(convertDate(props.date))
         ) {
           var genreArray = item.genres.split(",");
           if (
@@ -191,7 +184,6 @@ function Day(props) {
           }
         }
       })}
-
     </div>
   );
 }
