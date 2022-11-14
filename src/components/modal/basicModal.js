@@ -25,6 +25,7 @@ const mobileStyle = {
   position: "absolute",
   display: "flex",
   flexDirection: "column",
+  width: "70%",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -37,7 +38,7 @@ export default function BasicModal(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const matches = useMediaQuery("(min-width:400px)");
+  const matches = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {}, []);
 
@@ -51,6 +52,15 @@ export default function BasicModal(props) {
       >
         {!matches ? (
           <Box sx={mobileStyle}>
+            <img
+              src={logo}
+              style={{
+                width: 200,
+                height: 200,
+                justifySelf: "center",
+                alignSelf: "center",
+              }}
+            ></img>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Subscribe to recieve emails on upcoming Chicago concerts!
             </Typography>

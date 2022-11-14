@@ -23,7 +23,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import amber from "@material-ui/core/colors/amber";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import * as Scroll from "react-scroll";
-
+import waves from "./assets/layered-yellow-waves.svg";
 var LinkScroll = Scroll.Link;
 
 var days = [
@@ -107,93 +107,195 @@ function App(props) {
 
   return (
     <div id="app" className="App">
-      <div className="content">
-        <BasicModal />
-        <MyAppBar></MyAppBar>
-        <div id="pageTitle" className="pageTitle">
-          <Typography variant="h4" component="div">
-            Concerts in Chicago for the week of{" "}
-            <span className="pageDate">
-              {" "}
-              <ThemeProvider theme={materialTheme}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    value={dateObject}
-                    onChange={(newValue) => {
-                      var date = getMonday(newValue);
-                      setDateObject(new Date(newValue));
-                      setDate(date.toDateString());
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        style={{
-                          marginTop: 6,
-                          marginLeft: "0.5rem",
-                          color: amber,
-                        }}
-                        color="warning"
-                        variant="standard"
-                        {...params}
-                      />
-                    )}
-                  />
-                </LocalizationProvider>
-              </ThemeProvider>
-            </span>
-          </Typography>
-        </div>
-        <div>
-          <Button
-            onClick={backWeek}
-            color="inherit"
-            variant="outlined"
-            endIcon={<ArrowBackIcon />}
-          >
-            Previous Week
-          </Button>
-          {"  "}
-          <Button
-            onClick={advanceWeek}
-            color="inherit"
-            variant="outlined"
-            endIcon={<ArrowForwardIcon />}
-          >
-            Next Week
-          </Button>
-        </div>
-        <br></br>
-        {matches ? (
-          <Button
-            onClick={() => takePicture2()}
-            color="inherit"
-            variant="outlined"
-            endIcon={<ArrowDownIcon />}
-          >
-            Download Picture
-          </Button>
-        ) : (
-          <Button
-            color="inherit"
-            variant="outlined"
-            endIcon={<ArrowDownIcon />}
-          >
-            <LinkScroll
-              activeClass="active"
-              to={days[new Date().getDay()]}
-              spy={true}
-              smooth={true}
+      {matches ? (
+        <div
+          className="content"
+          style={{
+            backgroundImage: `url(${waves})`,
+            backgroundSize: "250%",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <BasicModal />
+          <MyAppBar></MyAppBar>
+          <div id="pageTitle" className="pageTitle">
+            <Typography variant="h4" component="div">
+              Concerts in Chicago for the week of{" "}
+              <span className="pageDate">
+                {" "}
+                <ThemeProvider theme={materialTheme}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      value={dateObject}
+                      onChange={(newValue) => {
+                        var date = getMonday(newValue);
+                        setDateObject(new Date(newValue));
+                        setDate(date.toDateString());
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          style={{
+                            marginTop: 6,
+                            marginLeft: "0.5rem",
+                            color: amber,
+                          }}
+                          color="warning"
+                          variant="standard"
+                          {...params}
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </ThemeProvider>
+              </span>
+            </Typography>
+          </div>
+          <div>
+            <Button
+              onClick={backWeek}
+              color="inherit"
+              variant="outlined"
+              endIcon={<ArrowBackIcon />}
             >
-              Take me to the current day
-            </LinkScroll>
-          </Button>
-        )}
-        <header id="concertContent" className="App-header">
-          <ConcertList data={props.data} date={date}>
-            {" "}
-          </ConcertList>
-        </header>
-      </div>
-
+              Previous Week
+            </Button>
+            {"  "}
+            <Button
+              onClick={advanceWeek}
+              color="inherit"
+              variant="outlined"
+              endIcon={<ArrowForwardIcon />}
+            >
+              Next Week
+            </Button>
+          </div>
+          <br></br>
+          {matches ? (
+            <Button
+              onClick={() => takePicture2()}
+              color="inherit"
+              variant="outlined"
+              endIcon={<ArrowDownIcon />}
+            >
+              Download Picture
+            </Button>
+          ) : (
+            <Button
+              color="inherit"
+              variant="outlined"
+              endIcon={<ArrowDownIcon />}
+            >
+              <LinkScroll
+                activeClass="active"
+                to={days[new Date().getDay()]}
+                spy={true}
+                smooth={true}
+              >
+                Take me to the current day
+              </LinkScroll>
+            </Button>
+          )}
+          <header id="concertContent" className="App-header">
+            <ConcertList data={props.data} date={date}>
+              {" "}
+            </ConcertList>
+          </header>
+        </div>
+      ) : (
+        <div
+          className="content"
+          style={{
+            backgroundImage: `url(${waves})`,
+            backgroundSize: "1200%",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <BasicModal />
+          <MyAppBar></MyAppBar>
+          <div id="pageTitle" className="pageTitle">
+            <Typography variant="h4" component="div">
+              Concerts in Chicago for the week of{" "}
+              <span className="pageDate">
+                {" "}
+                <ThemeProvider theme={materialTheme}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      value={dateObject}
+                      onChange={(newValue) => {
+                        var date = getMonday(newValue);
+                        setDateObject(new Date(newValue));
+                        setDate(date.toDateString());
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          style={{
+                            marginTop: 6,
+                            marginLeft: "0.5rem",
+                            color: amber,
+                          }}
+                          color="warning"
+                          variant="standard"
+                          {...params}
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </ThemeProvider>
+              </span>
+            </Typography>
+          </div>
+          <div>
+            <Button
+              onClick={backWeek}
+              color="inherit"
+              variant="outlined"
+              endIcon={<ArrowBackIcon />}
+            >
+              Previous Week
+            </Button>
+            {"  "}
+            <Button
+              onClick={advanceWeek}
+              color="inherit"
+              variant="outlined"
+              endIcon={<ArrowForwardIcon />}
+            >
+              Next Week
+            </Button>
+          </div>
+          <br></br>
+          {matches ? (
+            <Button
+              onClick={() => takePicture2()}
+              color="inherit"
+              variant="outlined"
+              endIcon={<ArrowDownIcon />}
+            >
+              Download Picture
+            </Button>
+          ) : (
+            <Button
+              color="inherit"
+              variant="outlined"
+              endIcon={<ArrowDownIcon />}
+            >
+              <LinkScroll
+                activeClass="active"
+                to={days[new Date().getDay()]}
+                spy={true}
+                smooth={true}
+              >
+                Take me to the current day
+              </LinkScroll>
+            </Button>
+          )}
+          <header id="concertContent" className="App-header">
+            <ConcertList data={props.data} date={date}>
+              {" "}
+            </ConcertList>
+          </header>
+        </div>
+      )}
       <footer className="footer">
         <Typography gutterBottom variant="h6" component="div">
           Designed and Developed by{" "}
