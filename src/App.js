@@ -23,7 +23,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import amber from "@material-ui/core/colors/amber";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import * as Scroll from "react-scroll";
-import waves from "./assets/layered-yellow-waves.svg";
+import waves from "./assets/layered-yellow-wavesV3.svg";
 var LinkScroll = Scroll.Link;
 
 var days = [
@@ -112,7 +112,7 @@ function App(props) {
           className="content"
           style={{
             backgroundImage: `url(${waves})`,
-            backgroundSize: "250%",
+            backgroundSize: "100%",
             backgroundRepeat: "no-repeat",
           }}
         >
@@ -206,7 +206,7 @@ function App(props) {
           className="content"
           style={{
             backgroundImage: `url(${waves})`,
-            backgroundSize: "1200%",
+            backgroundSize: "950%",
             backgroundRepeat: "no-repeat",
           }}
         >
