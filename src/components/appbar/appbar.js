@@ -11,24 +11,15 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import BasicModal from "../modal/basicModal";
 import AboutModal from "../modal/aboutModal";
-import { ReactComponent as ReactLogo } from "../../assets/layered-yellow-waves.svg";
-import "./appbar.css";
 
 const appbar = {
   backgroundColor: "wheat",
-};
-const appbar2 = {
-  backgroundColor: "white",
-
-  "--mask":
-    "radial-gradient(142.44px at 50% calc(100% - 191.75px),#000 99%,#0000 101%) calc(50% - 130px) 0/260px 100%,radial-gradient(142.44px at 50% calc(100% + 126.75px),#0000 99%,#000 101%) 50% calc(100% - 65px)/260px 100% repeat-x;",
-  "-webkit-mask": "var(--mask);mask: var(--mask);",
 };
 
 const settings = ["Subscribe", "About"];
 var logo = require("../../assets/wcc_logo.png");
 var logo2 = require("../../assets/wcc_logo_oval.png");
-var waves = require("../../assets/layered-yellow-waves.svg");
+
 export default function MyAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -85,7 +76,7 @@ export default function MyAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       {showSubscribe ? <BasicModal /> : null}
       {showAbout ? <AboutModal /> : null}
-      <AppBar position="static" sx={appbar}>
+      <AppBar position="static" sx={appbar} elevation={0}>
         <Toolbar>
           {!matches ? (
             <div>
@@ -147,7 +138,14 @@ export default function MyAppBar() {
           ></Typography>
 
           <Box sx={{ flexGrow: 0 }}>
-            <img src={logo} alt="logo" style={{ maxWidth: 70, marginTop: 3 }} />
+            <img
+              src={logo}
+              alt="logo"
+              style={{
+                maxWidth: 70,
+                marginTop: 3,
+              }}
+            />
           </Box>
         </Toolbar>
       </AppBar>

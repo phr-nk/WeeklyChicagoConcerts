@@ -80,25 +80,6 @@ const CustomForm = ({ status, message, onValidated }) => {
 const MailchimpFormContainer = (props) => {
   return (
     <div>
-      {/* <MailchimpSubscribe
-        url={postUrl}
-        render={({ subscribe, status, message }) => (
-          <div>
-            <SimpleForm onSubmitted={(formData) => subscribe(formData)} />
-            {status === "sending" && (
-              <div style={{ color: "blue" }}>sending...</div>
-            )}
-            {status === "error" && (
-              <div style={{ color: "red" }}>
-                This email is already registered.
-              </div>
-            )}
-            {status === "success" && (
-              <div style={{ color: "green" }}>Subscribed!</div>
-            )}
-          </div>
-        )}
-      /> */}
       <MailchimpSubscribe
         url={postUrl}
         render={({ subscribe, status, message }) => (
