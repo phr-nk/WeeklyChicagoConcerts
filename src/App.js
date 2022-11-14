@@ -88,10 +88,11 @@ function App(props) {
     takeScreenShot(node).then(download);
   }
   function takePicture2() {
-    html2canvas(document.getElementById("concertContent"), {
+    html2canvas(document.getElementById("app"), {
       logging: true,
       letterRendering: 1,
       allowTaint: false,
+      backgroundColor: "#f2bd44",
       useCORS: true,
     }).then((canvas) => {
       //document.body.appendChild(canvas);
