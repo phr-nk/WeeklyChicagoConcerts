@@ -56,7 +56,14 @@ function Day(props) {
         {props.dateObj.getDate() == currentDate.getDate() &&
         props.dateObj.getMonth() == currentDate.getMonth() &&
         props.dateObj.getFullYear() == currentDate.getFullYear() ? (
-          <p style={{ color: "#ed6c02", textAlign: "center" }}>{props.day}</p>
+          <p
+            style={{
+              color: "#ed6c02",
+              textAlign: "center",
+            }}
+          >
+            <strong>{props.day}</strong>
+          </p>
         ) : (
           <p style={{ textAlign: "center" }}>{props.day}</p>
         )}
