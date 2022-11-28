@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Day from "../day/day";
 import Chip from "@mui/material/Chip";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import TextField from "@mui/material/TextField";
+import ListSubheader from "@mui/material/ListSubheader";
+import InputAdornment from "@mui/material/InputAdornment";
 import MenuItem from "@mui/material/MenuItem";
 import { ThemeProvider, createTheme, Typography } from "@mui/material";
 import Select from "@mui/material/Select";
@@ -10,6 +13,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
 import ListItemText from "@material-ui/core/ListItemText";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import SearchIcon from "@mui/icons-material/Search";
 import InputLabel from "@mui/material/InputLabel";
 import _without from "lodash/without";
 import "./concertList.css";
@@ -111,6 +115,9 @@ function splitGenres(shows) {
   return genresObj;
 }
 
+const containsText = (text, searchText) =>
+  text.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+
 function ConcertList(props) {
   const [artists, setArtists] = useState();
   const [venues, setVenues] = useState();
@@ -121,6 +128,7 @@ function ConcertList(props) {
   const [selectedDay, setDay] = useState("all");
   const [selectedVariant, setVariant] = useState("outline");
   const [selectedColor, setColor] = useState("default");
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const g = splitGenres(props.data);
@@ -129,13 +137,17 @@ function ConcertList(props) {
     const groupByGenres = groupBy("genres");
     const daysGrouped = groupByDay(props.data);
     const venuesGrouped = groupByVenue(props.data);
-    // const genresGrouped = groupByGenres(genres);
-    //console.log(artists);
+
     setGenres(g);
 
     setVenues(venuesGrouped);
     orderData(daysGrouped);
   }, []);
+
+  const displayedOptions = Object.keys(genres).filter((option) =>
+    containsText(option, searchText)
+  );
+
   function formatDate(date) {
     var mm = date.getMonth() + 1; // getMonth() is zero-based
     var dd = date.getDate();
@@ -222,7 +234,7 @@ function ConcertList(props) {
     setGenreList((current) => [...event.target.value]);
   };
   const handleClose = (event) => {
-    console.log("Closed");
+    setSearchText("");
   };
   const handleDelete = (e, value) => {
     e.preventDefault();
@@ -297,14 +309,38 @@ function ConcertList(props) {
                 </div>
               )}
             >
+              <ListSubheader>
+                <TextField
+                  size="small"
+                  // Autofocus on textfield
+                  autoFocus
+                  placeholder="Type to search..."
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Escape") {
+                      // Prevents autoselecting item while typing (default Select behaviour)
+                      e.stopPropagation();
+                    }
+                  }}
+                />
+              </ListSubheader>
               <MenuItem value={"all"}>
                 <Checkbox checked={genreList.includes("all")} />
                 <ListItemText primary={"all"} />
               </MenuItem>
-              {Object.entries(genres).map(([k, v]) => (
-                <MenuItem value={k}>
-                  <Checkbox checked={genreList.includes(k)} />
-                  <ListItemText primary={k} />
+
+              {displayedOptions.map((option, i) => (
+                <MenuItem key={i} value={option}>
+                  <Checkbox checked={genreList.includes(option)} />
+                  <ListItemText primary={option} />
                 </MenuItem>
               ))}
             </Select>
