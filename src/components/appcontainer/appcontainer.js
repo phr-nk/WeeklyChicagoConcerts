@@ -3,8 +3,7 @@ import axios from "axios";
 import App from "../../App";
 import Spinner from "react-spinkit";
 
-
-const url = "https://chicago-concert-api.herokuapp.com/concerts";
+const url = "https://chicagoconcertapi.onrender.com/concerts";
 
 function AppContainer() {
   const [data, setData] = useState("");
@@ -31,7 +30,7 @@ function AppContainer() {
     return (
       <div className="spinner">
         <Spinner
-        fadeIn="none"
+          fadeIn="none"
           style={{
             transform: "translate(-50%, -50%)",
             top: "50%",
