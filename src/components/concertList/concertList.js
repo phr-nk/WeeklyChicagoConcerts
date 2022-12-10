@@ -16,6 +16,8 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import InputLabel from "@mui/material/InputLabel";
 import _without from "lodash/without";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Spinner from "react-spinkit";
 import "./concertList.css";
 
 import GenreSelect from "../genreSelect/genreSelect";
@@ -129,6 +131,8 @@ function ConcertList(props) {
   const [selectedVariant, setVariant] = useState("outline");
   const [selectedColor, setColor] = useState("default");
   const [searchText, setSearchText] = useState("");
+
+  const matches = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {
     const g = splitGenres(props.data);
