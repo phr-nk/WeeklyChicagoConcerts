@@ -197,7 +197,7 @@ function App(props) {
             </Button>
           )}
           <header id="concertContent" className="App-header">
-            <ConcertList data={props.data} date={date}>
+            <ConcertList date={date}>
               {" "}
             </ConcertList>
           </header>
@@ -291,7 +291,7 @@ function App(props) {
             </Button>
           )}
           <header id="concertContent" className="App-header">
-            <ConcertList data={props.data} date={date}>
+            <ConcertList  date={date}>
               {" "}
             </ConcertList>
           </header>
