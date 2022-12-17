@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import axios from "axios";
 import Day from "../day/day";
 import Chip from "@mui/material/Chip";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -15,14 +16,16 @@ import ListItemText from "@material-ui/core/ListItemText";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import InputLabel from "@mui/material/InputLabel";
+import {data as testData} from "../../assets/test-concerts"
 import _without from "lodash/without";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Spinner from "react-spinkit";
 import "./concertList.css";
-
+import Spinner from "react-spinkit";
 import GenreSelect from "../genreSelect/genreSelect";
 import { ControlPointDuplicate } from "@material-ui/icons";
 
+const url = "https://chicagoconcertapi.onrender.com/concerts";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -131,23 +134,37 @@ function ConcertList(props) {
   const [selectedVariant, setVariant] = useState("outline");
   const [selectedColor, setColor] = useState("default");
   const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState("");
 
   const matches = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {
-    const g = splitGenres(props.data);
     const groupByDay = groupBy("dayOfWeek");
     const groupByVenue = groupBy("venue");
     const groupByGenres = groupBy("genres");
-    const daysGrouped = groupByDay(props.data);
-    const venuesGrouped = groupByVenue(props.data);
 
-    setGenres(g);
+   fetchData().then((res) => {
+      setData(testData);
+      const daysGrouped = groupByDay(res);
+      const venuesGrouped = groupByVenue(res);
+      const g = splitGenres(res);
 
-    setVenues(venuesGrouped);
-    orderData(daysGrouped);
+      setGenres(g);
+      setVenues(venuesGrouped);
+      orderData(daysGrouped);
+    });
   }, []);
 
+  async function fetchData() {
+    try {
+      const res = await axios(url);
+      const json = await res.data;
+
+      return json;
+    } catch (err) {
+      console.log("Error: " + err);
+    }
+  }
   const displayedOptions = Object.keys(genres).filter((option) =>
     containsText(option, searchText)
   );
@@ -203,6 +220,10 @@ function ConcertList(props) {
     Object.entries(concerts).forEach(([k, v]) => {
       v.forEach((el) => {
         //Add regex date object to use to sort the dates
+
+        /*  
+            This regex should be done when creating the API so we don't have to do it here
+        */
         var element = el;
         var result = el.time.replace(/doors:|show:|/gi, "").trim();
 
@@ -247,7 +268,11 @@ function ConcertList(props) {
   };
 
   if (artists == null) {
-    return <div></div>;
+    return (
+      <div className="spinner">
+        <Spinner fadeIn="none" name="double-bound" />
+      </div>
+    );
   } else {
     return (
       <div>
@@ -351,33 +376,39 @@ function ConcertList(props) {
           </FormControl>
 
           <div className="concertList">
-            <div className="venueContainer">
-              {Object.entries(artists).map(([k, v]) => {
-                if (selectedVenue === "all") {
-                  return (
-                    <Day
-                      dateObj={getDateFromDay(daysObj[k])}
-                      day={formatDate(getDateFromDay(daysObj[k]))}
-                      date={props.date}
-                      venue={k}
-                      concerts={v}
-                      genres={genreList}
-                    />
-                  );
-                } else {
-                  return (
-                    <Day
-                      dateObj={getDateFromDay(daysObj[k])}
-                      day={formatDate(getDateFromDay(daysObj[k]))}
-                      date={props.date}
-                      venue={k}
-                      concerts={returnConcertsForVenue(selectedVenue, v)}
-                      genres={genreList}
-                    />
-                  );
-                }
-              })}
-            </div>
+            {data != "" ? (
+              <div className="venueContainer">
+                {Object.entries(artists).map(([k, v]) => {
+                  if (selectedVenue === "all") {
+                    return (
+                      <Day
+                        dateObj={getDateFromDay(daysObj[k])}
+                        day={formatDate(getDateFromDay(daysObj[k]))}
+                        date={props.date}
+                        venue={k}
+                        concerts={v}
+                        genres={genreList}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Day
+                        dateObj={getDateFromDay(daysObj[k])}
+                        day={formatDate(getDateFromDay(daysObj[k]))}
+                        date={props.date}
+                        venue={k}
+                        concerts={returnConcertsForVenue(selectedVenue, v)}
+                        genres={genreList}
+                      />
+                    );
+                  }
+                })}
+              </div>
+            ) : (
+              <div className="spinner">
+                <Spinner fadeIn="none" name="double-bound" />
+              </div>
+            )}
           </div>
         </ThemeProvider>
       </div>
