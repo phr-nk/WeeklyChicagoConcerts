@@ -16,10 +16,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import InputLabel from "@mui/material/InputLabel";
-import {data as testData} from "../../assets/test-concerts"
+import { data as testData } from "../../assets/test-concerts";
 import _without from "lodash/without";
-import "./concertList.css";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Spinner from "react-spinkit";
+import "./concertList.css";
 import GenreSelect from "../genreSelect/genreSelect";
 import { ControlPointDuplicate } from "@material-ui/icons";
 
@@ -133,13 +134,20 @@ function ConcertList(props) {
   const [selectedColor, setColor] = useState("default");
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState("");
+  const [longLoad, setLongLoad] = useState(false);
+
+  const matches = useMediaQuery("(min-width:600px)");
+
+  setInterval(() => {
+    setLongLoad(true);
+  }, 7000);
 
   useEffect(() => {
     const groupByDay = groupBy("dayOfWeek");
     const groupByVenue = groupBy("venue");
     const groupByGenres = groupBy("genres");
 
-   fetchData().then((res) => {
+    fetchData().then((res) => {
       setData(testData);
       const daysGrouped = groupByDay(res);
       const venuesGrouped = groupByVenue(res);
@@ -263,10 +271,19 @@ function ConcertList(props) {
     setGenreList((current) => _without(current, value));
   };
 
-  if (artists == null) {
+  if (artists == null && longLoad == false) {
     return (
       <div className="spinner">
         <Spinner fadeIn="none" name="double-bound" />
+      </div>
+    );
+  } else if (longLoad) {
+    return (
+      <div className="spinner">
+        <div>
+          <Spinner fadeIn="none" name="double-bound" />
+          <p>Waking up the server.....please continue to wait</p>
+        </div>
       </div>
     );
   } else {
