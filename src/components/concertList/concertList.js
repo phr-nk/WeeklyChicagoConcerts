@@ -277,7 +277,7 @@ function ConcertList(props) {
         <Spinner fadeIn="none" name="double-bound" />
       </div>
     );
-  } else if (longLoad) {
+  } else if (artists == null && longLoad) {
     return (
       <div className="spinner">
         <div>
