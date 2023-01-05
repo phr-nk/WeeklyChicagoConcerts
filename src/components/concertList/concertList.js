@@ -138,10 +138,6 @@ function ConcertList(props) {
 
   const matches = useMediaQuery("(min-width:600px)");
 
-  setInterval(() => {
-    setLongLoad(true);
-  }, 7000);
-
   useEffect(() => {
     const groupByDay = groupBy("dayOfWeek");
     const groupByVenue = groupBy("venue");
@@ -274,15 +270,12 @@ function ConcertList(props) {
   if (artists == null && longLoad == false) {
     return (
       <div className="spinner">
-        <Spinner fadeIn="none" name="double-bound" />
-      </div>
-    );
-  } else if (artists == null && longLoad) {
-    return (
-      <div className="spinner">
         <div>
           <Spinner fadeIn="none" name="double-bound" />
-          <p>Waking up the server.....please continue to wait</p>
+          <br></br>
+          <p className="loadText">
+            Waking up the server.....please continue to wait
+          </p>
         </div>
       </div>
     );
