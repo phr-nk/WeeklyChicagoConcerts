@@ -11,12 +11,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import BasicModal from "../modal/basicModal";
 import AboutModal from "../modal/aboutModal";
+import CalendarModal from "../modal/calendarModal";
 
 const appbar = {
   backgroundColor: "wheat",
 };
 
-const settings = ["Subscribe", "About"];
+const settings = ["Subscribe", "About", "My Show Calendar"];
 var logo = require("../../assets/wcc_logo.png");
 var logo2 = require("../../assets/wcc_logo_oval.png");
 
@@ -25,6 +26,7 @@ export default function MyAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [showSubscribe, setShowSubscribe] = React.useState(false);
   const [showAbout, setShowAbout] = React.useState(false);
+  const [showCalendar, setShowCalendar] = React.useState(false);
   const matches = useMediaQuery("(min-width:600px)");
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -65,6 +67,18 @@ export default function MyAppBar() {
       setShowSubscribe(false);
       setAnchorElUser(false);
     }
+    if (setting == "My Show Calendar") {
+      if (showCalendar) {
+        setShowCalendar(false);
+        setAnchorElUser(false);
+      } else {
+        setShowCalendar(true);
+        setAnchorElUser(false);
+      }
+    } else {
+      setShowCalendar(false);
+      setAnchorElUser(false);
+    }
   };
   const closeModal = () => {
     setAnchorElUser(true);
@@ -75,6 +89,7 @@ export default function MyAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       {showSubscribe ? <BasicModal /> : null}
+      {showCalendar ? <CalendarModal /> : null}
       {showAbout ? <AboutModal /> : null}
       <AppBar position="static" sx={appbar} elevation={0}>
         <Toolbar>
