@@ -69,11 +69,7 @@ export default function BasicModal(props) {
             >
               <MonthlyNav />
               <MonthlyBody
-                events={[
-                  { title: "Call John", date: subHours(new Date(), 2) },
-                  { title: "Call John", date: subHours(new Date(), 1) },
-                  { title: "Meeting with Bob", date: new Date() },
-                ]}
+                events={[]}
                 renderDay={(data) =>
                   data.map((item, index) => (
                     <DefaultMonthlyEventItem
