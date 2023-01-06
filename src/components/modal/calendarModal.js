@@ -40,6 +40,7 @@ const mobileStyle = {
   top: "50%",
   left: "50%",
   width: "95vw",
+  height: "80vh",
   transform: "translate(-50%, -50%)",
   bgcolor: "white",
   boxShadow: 24,
@@ -100,8 +101,8 @@ export default function BasicModal(props) {
                       title={item.title}
                       date={
                         showingFullWeek
-                          ? format(item.date, "MMM do k:mm")
-                          : format(item.date, "k:mm")
+                          ? format(item.date, "MMM do hh:mm:a")
+                          : format(item.date, "hh:mm:a")
                       }
                     />
                   )}
@@ -125,7 +126,7 @@ export default function BasicModal(props) {
                           key={index}
                           title={item.title}
                           // Format the date here to be in the format you prefer
-                          date={format(item.date, "k:mm")}
+                          date={format(item.date, "hh:mm:a")}
                         />
                       ))
                     }
