@@ -5,3 +5,6 @@
   .rc-max-h-36 {
     max-height: 5rem;
   }
+  .rc-max-h-96{
+      max-height: 35vh;
+  }
