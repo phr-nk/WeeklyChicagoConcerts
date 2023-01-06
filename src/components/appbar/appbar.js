@@ -17,7 +17,7 @@ const appbar = {
   backgroundColor: "wheat",
 };
 
-const settings = ["Subscribe", "About", "My Show Calendar"];
+const settings = ["Subscribe", "About", "My Concert Calendar"];
 var logo = require("../../assets/wcc_logo.png");
 var logo2 = require("../../assets/wcc_logo_oval.png");
 
@@ -67,7 +67,7 @@ export default function MyAppBar() {
       setShowSubscribe(false);
       setAnchorElUser(false);
     }
-    if (setting == "My Show Calendar") {
+    if (setting == "My Concert Calendar") {
       if (showCalendar) {
         setShowCalendar(false);
         setAnchorElUser(false);

@@ -1,11 +1,10 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+
 import Modal from "@mui/material/Modal";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Link } from "@mui/material";
-import { subHours, startOfMonth, format } from "date-fns";
+import { startOfMonth, format } from "date-fns";
+import { ConcertContext } from "../../store";
 import {
   MonthlyBody,
   MonthlyCalendar,
@@ -25,7 +24,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
 
-  width: 950,
+  width: 1600,
   height: 900,
   bgcolor: "white",
   boxShadow: 24,
@@ -36,14 +35,17 @@ const mobileStyle = {
   top: "50%",
   left: "50%",
   width: "75vw",
+  height: "80vh",
   transform: "translate(-50%, -50%)",
   bgcolor: "white",
   boxShadow: 24,
   p: 4,
 };
+
 export default function BasicModal(props) {
   const [open, setOpen] = React.useState(true);
-  const handleOpen = () => setOpen(true);
+  const [state] = useContext(ConcertContext);
+  const [events, setEvents] = React.useState([]);
   const handleClose = () => setOpen(false);
   const [currentMonth, setCurrentMonth] = React.useState(
     startOfMonth(new Date())
@@ -51,7 +53,27 @@ export default function BasicModal(props) {
 
   const matches = useMediaQuery("(min-width:480px)");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (state.events.length > 0) {
+      //This part should be refactored in the future to save on performance
+      const objectsJSON = state.events.map((object) => JSON.stringify(object));
+      const objectsJSONSet = new Set(objectsJSON);
+      const uniqueJSONArray = Array.from(objectsJSONSet);
+      const uniqueObjectsByContent = uniqueJSONArray.map((string) =>
+        JSON.parse(string)
+      );
+      var unqiueWithDates = [];
+      for (var i = 0; i < uniqueObjectsByContent.length; i++) {
+        var dateObj = new Date(uniqueObjectsByContent[i].date);
+        unqiueWithDates.push({
+          title: uniqueObjectsByContent[i].title,
+          date: dateObj,
+        });
+      }
+
+      setEvents(unqiueWithDates);
+    }
+  }, []);
 
   return (
     <div>
@@ -69,13 +91,13 @@ export default function BasicModal(props) {
             >
               <MonthlyNav />
               <MonthlyBody
-                events={[]}
+                events={events}
                 renderDay={(data) =>
                   data.map((item, index) => (
                     <DefaultMonthlyEventItem
                       key={index}
                       title={item.title}
-                      date={item.date}
+                      date={format(item.date, "hh:mm:a")}
                     />
                   ))
                 }
@@ -89,28 +111,20 @@ export default function BasicModal(props) {
               onCurrentMonthChange={(date) => setCurrentMonth(date)}
             >
               <MonthlyNav />
-              <div style={{ height: 600 }}>
-                <MonthlyBody
-                  events={[
-                    { title: "Call John", date: subHours(new Date(), 2) },
-                    { title: "Call John", date: subHours(new Date(), 1) },
-                    { title: "Meeting with Bob", date: new Date() },
-                  ]}
-                >
-                  <MonthlyDay
-                    renderDay={(data) =>
-                      data.map((item, index) => (
-                        <DefaultMonthlyEventItem
-                          key={index}
-                          title={item.title}
-                          // Format the date here to be in the format you prefer
-                          date={format(item.date, "k:mm")}
-                        />
-                      ))
-                    }
-                  />
-                </MonthlyBody>
-              </div>
+              <MonthlyBody events={events}>
+                <MonthlyDay
+                  renderDay={(data) =>
+                    data.map((item, index) => (
+                      <DefaultMonthlyEventItem
+                        key={index}
+                        title={item.title}
+                        // Format the date here to be in the format you prefer
+                        date={format(item.date, "hh:mm:a")}
+                      />
+                    ))
+                  }
+                />
+              </MonthlyBody>
             </MonthlyCalendar>
           </Box>
         )}
