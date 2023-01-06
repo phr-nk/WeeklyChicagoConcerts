@@ -1,16 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-import AppContainer from "./components/appcontainer/appcontainer"
-
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import AppContainer from "./components/appcontainer/appcontainer";
+import { ConcertContextProvider } from "./store.js";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppContainer />
-    
+    <ConcertContextProvider>
+      <AppContainer />
+    </ConcertContextProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

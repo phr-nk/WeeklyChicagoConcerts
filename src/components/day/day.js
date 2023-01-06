@@ -1,14 +1,36 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import "./venue.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
+import { ConcertContext } from "../../store";
+import { v4 as uuidv4 } from "uuid";
 
 var Scroll = require("react-scroll");
 var ElementScroll = Scroll.Element;
+
+function parseDaytime(time) {
+  var hours;
+  var minutes;
+  if (time.indexOf(":") > 0) {
+    [hours, minutes] = time
+      .substr(0, time.length - 2)
+      .split(":")
+      .map(Number);
+  } else {
+    hours = Number(time.substr(0, time.length - 2));
+    minutes = Number("0");
+  }
+
+  if (time.toLowerCase().includes("pm") && hours !== 12) hours += 12;
+  {
+    return 1000 /*ms*/ * 60 /*s*/ * (hours * 60 + minutes);
+  }
+}
 
 function convertDate(date) {
   var date_parsed = Date.parse(date);
@@ -32,12 +54,43 @@ function getFirstDayOfWeek(d) {
 function Day(props) {
   const [open, setOpen] = useState(true);
   const [symbol, setSymbol] = useState("-");
+  const [state, dispatch] = useContext(ConcertContext);
   const ref = useRef(null);
 
   const matches = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {}, []);
 
+  const addConcertToContext = (event, title, date, time) => {
+    var date = dateTime(time, date);
+
+    if (title != "") {
+      dispatch({
+        type: "ADD_ITEM",
+        payload: { title, date },
+      });
+    }
+  };
+
+  const dateTime = (time, date) => {
+    var result = time.replace(/doors:|show:|/gi, "").trim();
+
+    if (result.indexOf("|") > 0) {
+      var result_array = result.split("|");
+
+      result = result_array[0].replace(/\s/gi, "");
+    } else if (result.indexOf("/") > 0) {
+      var result_array = result.split("/");
+      result = result_array[0].replace(/\s/gi, "");
+    } else if (result.indexOf("//") > 0) {
+      var result_array = result.split("//");
+      result = result_array[0].replace(/\s/gi, "");
+    }
+    var date_parsed = Date.parse(date);
+
+    var new_date = new Date(date_parsed + parseDaytime(result));
+    return new_date;
+  };
   var currentDate = new Date();
   const handleClick = () => {
     setOpen(!open);
@@ -128,6 +181,16 @@ function Day(props) {
                         <div></div>
                       )}
                     </Typography>
+                    <br></br>
+                    <Button
+                      onClick={(e) =>
+                        addConcertToContext(e, item.name, item.date, item.time)
+                      }
+                      color="inherit"
+                      variant="outlined"
+                    >
+                      Add Concert to Calendar
+                    </Button>
                   </CardContent>
                 </Card>
               );
@@ -184,6 +247,16 @@ function Day(props) {
                         <div></div>
                       )}
                     </Typography>
+                    <br></br>
+                    <Button
+                      onClick={(e) =>
+                        addConcertToContext(e, item.name, item.date, item.time)
+                      }
+                      color="inherit"
+                      variant="outlined"
+                    >
+                      Add Concert to Calendar
+                    </Button>
                   </CardContent>
                 </Card>
               );
