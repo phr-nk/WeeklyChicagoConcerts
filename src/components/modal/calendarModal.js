@@ -11,6 +11,11 @@ import {
   MonthlyDay,
   MonthlyNav,
   DefaultMonthlyEventItem,
+  WeeklyCalendar,
+  WeeklyContainer,
+  WeeklyDays,
+  WeeklyBody,
+  DefaultWeeklyEventItem,
 } from "@zach.codes/react-calendar";
 import "@zach.codes/react-calendar/dist/calendar-tailwind.css";
 import "./calendarModal.css";
@@ -34,8 +39,7 @@ const mobileStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
-  width: "75vw",
-  height: "80vh",
+  width: "95vw",
   transform: "translate(-50%, -50%)",
   bgcolor: "white",
   boxShadow: 24,
@@ -85,24 +89,25 @@ export default function BasicModal(props) {
       >
         {!matches ? (
           <Box sx={mobileStyle}>
-            <MonthlyCalendar
-              currentMonth={currentMonth}
-              onCurrentMonthChange={(date) => setCurrentMonth(date)}
-            >
-              <MonthlyNav />
-              <MonthlyBody
-                events={events}
-                renderDay={(data) =>
-                  data.map((item, index) => (
-                    <DefaultMonthlyEventItem
-                      key={index}
+            <WeeklyCalendar week={new Date()}>
+              <WeeklyContainer>
+                <WeeklyDays />
+                <WeeklyBody
+                  events={events}
+                  renderItem={({ item, showingFullWeek }) => (
+                    <DefaultWeeklyEventItem
+                      key={item.date.toISOString()}
                       title={item.title}
-                      date={format(item.date, "hh:mm:a")}
+                      date={
+                        showingFullWeek
+                          ? format(item.date, "MMM do k:mm")
+                          : format(item.date, "k:mm")
+                      }
                     />
-                  ))
-                }
-              />
-            </MonthlyCalendar>
+                  )}
+                />
+              </WeeklyContainer>
+            </WeeklyCalendar>
           </Box>
         ) : (
           <Box sx={style}>
@@ -111,20 +116,22 @@ export default function BasicModal(props) {
               onCurrentMonthChange={(date) => setCurrentMonth(date)}
             >
               <MonthlyNav />
-              <MonthlyBody events={events}>
-                <MonthlyDay
-                  renderDay={(data) =>
-                    data.map((item, index) => (
-                      <DefaultMonthlyEventItem
-                        key={index}
-                        title={item.title}
-                        // Format the date here to be in the format you prefer
-                        date={format(item.date, "hh:mm:a")}
-                      />
-                    ))
-                  }
-                />
-              </MonthlyBody>
+              <div style={{ height: 600 }}>
+                <MonthlyBody events={events}>
+                  <MonthlyDay
+                    renderDay={(data) =>
+                      data.map((item, index) => (
+                        <DefaultMonthlyEventItem
+                          key={index}
+                          title={item.title}
+                          // Format the date here to be in the format you prefer
+                          date={format(item.date, "k:mm")}
+                        />
+                      ))
+                    }
+                  />
+                </MonthlyBody>
+              </div>
             </MonthlyCalendar>
           </Box>
         )}
