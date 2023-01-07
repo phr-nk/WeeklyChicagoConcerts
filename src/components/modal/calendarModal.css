@@ -1,5 +1,5 @@
 .rc-h-48 {
-    height: 8rem;
+    height: 7rem;
   }
 
   .rc-max-h-36 {
@@ -12,4 +12,12 @@
     display: flex;
     justify-content: center;
     margin-bottom: 1.5rem;
+}
+.icsFileContainer{
+    display: flex;
+}
+.icsButton{
+    width: 200;
+    position: absolute;
+    top:3%
 }

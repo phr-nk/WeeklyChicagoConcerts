@@ -1,14 +1,15 @@
 import React, { useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
-
 import Modal from "@mui/material/Modal";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { startOfMonth, format } from "date-fns";
 import { ConcertContext } from "../../store";
 import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { saveAs } from "file-saver";
 import {
   MonthlyBody,
   MonthlyCalendar,
@@ -23,6 +24,8 @@ import {
 } from "@zach.codes/react-calendar";
 import "@zach.codes/react-calendar/dist/calendar-tailwind.css";
 import "./calendarModal.css";
+
+const ics = require("../../../node_modules/ics/dist");
 
 const style = {
   position: "absolute",
@@ -93,6 +96,7 @@ export default function BasicModal(props) {
         unqiueWithDates.push({
           title: uniqueObjectsByContent[i].title,
           date: dateObj,
+          venue: uniqueObjectsByContent[i].venue,
         });
       }
 
@@ -111,6 +115,35 @@ export default function BasicModal(props) {
     weekAhead.setDate(week.getDate() - 7);
     setMonth(monthNames[week.getMonth()]);
     setWeek(weekAhead);
+  }
+  function generateICS() {
+    console.log(events);
+    var icsEvents = [];
+    for (var i = 0; i < events.length; i++) {
+      var date = new Date(events[i].date);
+      icsEvents.push({
+        title: "Concert: " + events[i].title,
+        description: events[i].title + " at " + events[i].venue,
+        busyStatus: "BUSY",
+        start: [
+          date.getFullYear(),
+          date.getMonth() + 1,
+          date.getDate(),
+          date.getHours(),
+          date.getMinutes(),
+        ],
+        duration: { minutes: 60 },
+      });
+    }
+
+    const { error, value } = ics.createEvents(icsEvents);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+    var file = new File([value], { type: "text/plain;charset=utf-8" });
+    saveAs(file, "concert_events.ics");
   }
 
   return (
@@ -166,6 +199,22 @@ export default function BasicModal(props) {
               onCurrentMonthChange={(date) => setCurrentMonth(date)}
             >
               <MonthlyNav />
+              <div className="icsFileContainer">
+                <Tooltip
+                  title="This ICS file and be imported into any calendar software you
+                  use."
+                >
+                  <Button
+                    className="icsButton"
+                    onClick={generateICS}
+                    color="inherit"
+                    variant="outlined"
+                  >
+                    Generate ICS file
+                  </Button>
+                </Tooltip>
+              </div>{" "}
+              <br></br>
               <div style={{ height: 600 }}>
                 <MonthlyBody events={events}>
                   <MonthlyDay

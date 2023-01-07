@@ -61,13 +61,13 @@ function Day(props) {
 
   useEffect(() => {}, []);
 
-  const addConcertToContext = (event, title, date, time) => {
+  const addConcertToContext = (event, title, date, time, venue) => {
     var date = dateTime(time, date);
 
     if (title != "") {
       dispatch({
         type: "ADD_ITEM",
-        payload: { title, date },
+        payload: { title, date, venue },
       });
     }
   };
@@ -184,7 +184,13 @@ function Day(props) {
                     <br></br>
                     <Button
                       onClick={(e) =>
-                        addConcertToContext(e, item.name, item.date, item.time)
+                        addConcertToContext(
+                          e,
+                          item.name,
+                          item.date,
+                          item.time,
+                          item.venue
+                        )
                       }
                       color="inherit"
                       variant="outlined"
@@ -250,7 +256,13 @@ function Day(props) {
                     <br></br>
                     <Button
                       onClick={(e) =>
-                        addConcertToContext(e, item.name, item.date, item.time)
+                        addConcertToContext(
+                          e,
+                          item.name,
+                          item.date,
+                          item.time,
+                          item.venue
+                        )
                       }
                       color="inherit"
                       variant="outlined"
