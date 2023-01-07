@@ -5,6 +5,10 @@ import Modal from "@mui/material/Modal";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { startOfMonth, format } from "date-fns";
 import { ConcertContext } from "../../store";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   MonthlyBody,
   MonthlyCalendar,
@@ -46,9 +50,25 @@ const mobileStyle = {
   boxShadow: 24,
   p: 4,
 };
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 export default function BasicModal(props) {
   const [open, setOpen] = React.useState(true);
+  const [week, setWeek] = React.useState(new Date());
+  const [month, setMonth] = React.useState(monthNames[week.getMonth()]);
   const [state] = useContext(ConcertContext);
   const [events, setEvents] = React.useState([]);
   const handleClose = () => setOpen(false);
@@ -80,6 +100,19 @@ export default function BasicModal(props) {
     }
   }, []);
 
+  function advanceWeek() {
+    var weekAhead = new Date(week);
+    weekAhead.setDate(week.getDate() + 7);
+    setMonth(monthNames[week.getMonth()]);
+    setWeek(weekAhead);
+  }
+  function backWeek() {
+    var weekAhead = new Date(week);
+    weekAhead.setDate(week.getDate() - 7);
+    setMonth(monthNames[week.getMonth()]);
+    setWeek(weekAhead);
+  }
+
   return (
     <div>
       <Modal
@@ -90,7 +123,23 @@ export default function BasicModal(props) {
       >
         {!matches ? (
           <Box sx={mobileStyle}>
-            <WeeklyCalendar week={new Date()}>
+            <WeeklyCalendar week={week}>
+              <Typography style={{ textAlign: "center" }}>{month}</Typography>
+              <div className="buttons">
+                <Button
+                  onClick={backWeek}
+                  color="inherit"
+                  variant="outlined"
+                  endIcon={<ArrowBackIcon />}
+                ></Button>
+                {"  "}
+                <Button
+                  onClick={advanceWeek}
+                  color="inherit"
+                  variant="outlined"
+                  endIcon={<ArrowForwardIcon />}
+                ></Button>
+              </div>
               <WeeklyContainer>
                 <WeeklyDays />
                 <WeeklyBody

@@ -6,5 +6,10 @@
     max-height: 5rem;
   }
   .rc-max-h-96{
-      max-height: 35vh;
+      max-height: 30vh;
   }
+.buttons{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
