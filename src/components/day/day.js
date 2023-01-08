@@ -61,13 +61,21 @@ function Day(props) {
 
   useEffect(() => {}, []);
 
-  const addConcertToContext = (event, title, date, time, venue) => {
+  const addConcertToContext = (
+    event,
+    title,
+    date,
+    time,
+    venue,
+    link,
+    image
+  ) => {
     var date = dateTime(time, date);
 
     if (title != "") {
       dispatch({
         type: "ADD_ITEM",
-        payload: { title, date, venue },
+        payload: { title, date, venue, link, image },
       });
     }
   };
@@ -189,7 +197,9 @@ function Day(props) {
                           item.name,
                           item.date,
                           item.time,
-                          item.venue
+                          item.venue,
+                          item.link,
+                          item.image
                         )
                       }
                       color="inherit"
@@ -261,7 +271,9 @@ function Day(props) {
                           item.name,
                           item.date,
                           item.time,
-                          item.venue
+                          item.venue,
+                          item.link,
+                          item.image
                         )
                       }
                       color="inherit"

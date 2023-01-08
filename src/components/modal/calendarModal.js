@@ -97,6 +97,8 @@ export default function BasicModal(props) {
           title: uniqueObjectsByContent[i].title,
           date: dateObj,
           venue: uniqueObjectsByContent[i].venue,
+          link: uniqueObjectsByContent[i].link,
+          image: uniqueObjectsByContent[i].image,
         });
       }
 
@@ -117,13 +119,17 @@ export default function BasicModal(props) {
     setWeek(weekAhead);
   }
   function generateICS() {
-    console.log(events);
     var icsEvents = [];
     for (var i = 0; i < events.length; i++) {
       var date = new Date(events[i].date);
       icsEvents.push({
         title: "Concert: " + events[i].title,
-        description: events[i].title + " at " + events[i].venue,
+        description:
+          events[i].title +
+          " at " +
+          events[i].venue +
+          "\n\nLink:" +
+          events[i].link,
         busyStatus: "BUSY",
         start: [
           date.getFullYear(),
@@ -132,7 +138,17 @@ export default function BasicModal(props) {
           date.getHours(),
           date.getMinutes(),
         ],
-        duration: { minutes: 60 },
+        duration: { minutes: 90 },
+        url: events[i].link,
+        htmlContent:
+          "<!DOCTYPE html><html><body><img src='" +
+          events[i].image +
+          "'><a href='" +
+          events[i].link +
+          "'><h2>" +
+          events[i].title +
+          "</h2></a></body></html>",
+        location: events[i].venue,
       });
     }
 
@@ -142,6 +158,7 @@ export default function BasicModal(props) {
       console.log(error);
       return;
     }
+    console.log(value);
     var file = new File([value], { type: "text/plain;charset=utf-8" });
     saveAs(file, "concert_events.ics");
   }
