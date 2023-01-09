@@ -27,6 +27,21 @@ import "./calendarModal.css";
 
 const ics = require("../../../node_modules/ics/dist");
 
+function EventItem({ title, date, link, venue }) {
+  return (
+    <li className="rc-py-2">
+      <div className="rc-flex rc-text-sm rc-flex-1 rc-justify-between">
+        <a target="_blank" rel="noopener noreferrer" href={link}>
+          <h3 className="rc-font-medium">
+            {title} at {venue}
+          </h3>{" "}
+        </a>
+        <p className="rc-text-gray-500">{date}</p>
+      </div>
+    </li>
+  );
+}
+
 const style = {
   position: "absolute",
   display: "flex",
@@ -109,13 +124,13 @@ export default function BasicModal(props) {
   function advanceWeek() {
     var weekAhead = new Date(week);
     weekAhead.setDate(week.getDate() + 7);
-    setMonth(monthNames[week.getMonth()]);
+    setMonth(monthNames[weekAhead.getMonth()]);
     setWeek(weekAhead);
   }
   function backWeek() {
     var weekAhead = new Date(week);
     weekAhead.setDate(week.getDate() - 7);
-    setMonth(monthNames[week.getMonth()]);
+    setMonth(monthNames[weekAhead.getMonth()]);
     setWeek(weekAhead);
   }
   function generateICS() {
@@ -190,14 +205,35 @@ export default function BasicModal(props) {
                   endIcon={<ArrowForwardIcon />}
                 ></Button>
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: "1rem",
+                }}
+              >
+                <Tooltip
+                  title="This ICS file and be imported into any calendar software you
+                  use."
+                >
+                  <Button
+                    onClick={generateICS}
+                    color="inherit"
+                    variant="outlined"
+                  >
+                    Generate ICS file
+                  </Button>
+                </Tooltip>
+              </div>
               <WeeklyContainer>
                 <WeeklyDays />
                 <WeeklyBody
                   events={events}
                   renderItem={({ item, showingFullWeek }) => (
-                    <DefaultWeeklyEventItem
+                    <EventItem
                       key={item.date.toISOString()}
                       title={item.title}
+                      venue={item.venue}
                       date={
                         showingFullWeek
                           ? format(item.date, "MMM do hh:mm:a")
@@ -237,11 +273,13 @@ export default function BasicModal(props) {
                   <MonthlyDay
                     renderDay={(data) =>
                       data.map((item, index) => (
-                        <DefaultMonthlyEventItem
+                        <EventItem
                           key={index}
                           title={item.title}
                           // Format the date here to be in the format you prefer
                           date={format(item.date, "hh:mm:a")}
+                          link={item.link}
+                          venue={item.venue}
                         />
                       ))
                     }
