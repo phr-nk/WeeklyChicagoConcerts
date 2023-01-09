@@ -5,6 +5,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { startOfMonth, format } from "date-fns";
 import { ConcertContext } from "../../store";
 import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
+import Link from "@mui/material/Link";
 import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -173,7 +175,6 @@ export default function BasicModal(props) {
       console.log(error);
       return;
     }
-    console.log(value);
     var file = new File([value], { type: "text/plain;charset=utf-8" });
     saveAs(file, "concert_events.ics");
   }
@@ -205,11 +206,25 @@ export default function BasicModal(props) {
                   endIcon={<ArrowForwardIcon />}
                 ></Button>
               </div>
+              <div>
+                <Alert severity="info" style={{ marginBotton: "0.5rem" }}>
+                  Get an iOS shortcut to quickly add events to your calendar on
+                  iPhone:{" "}
+                  <Link
+                    href="https://routinehub.co/shortcut/7005/"
+                    target="_blank"
+                  >
+                    {" "}
+                    ICS To Calendar
+                  </Link>
+                </Alert>
+              </div>
               <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   marginBottom: "1rem",
+                  marginTop: "0.5rem",
                 }}
               >
                 <Tooltip
@@ -225,6 +240,7 @@ export default function BasicModal(props) {
                   </Button>
                 </Tooltip>
               </div>
+
               <WeeklyContainer>
                 <WeeklyDays />
                 <WeeklyBody
