@@ -4,12 +4,18 @@ export const ConcertContext = createContext();
 
 const initialState = {
   events: [],
+  date: "",
 };
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD_ITEM":
       return {
         events: [...state.events, action.payload],
+      };
+    case "UPDATE_ITEM":
+      return {
+        events: [...state.events],
+        date: action.payload.date,
       };
     default:
       return {

@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import MyAppBar from "./components/appbar/appbar";
 import Typography from "@mui/material/Typography";
+import { ConcertContext } from "./store.js";
 import Link from "@mui/material/Link";
 import MailchimpSubscribe from "react-mailchimp-subscribe";
 import DateTimePicker from "@mui/lab/DateTimePicker";
@@ -10,7 +11,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers";
 import TextField from "@mui/material/TextField";
 import ConcertList from "./components/concertList/concertList";
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import BasicModal from "./components/modal/basicModal";
 import Button from "@mui/material/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -24,6 +25,7 @@ import amber from "@material-ui/core/colors/amber";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import * as Scroll from "react-scroll";
 import waves from "./assets/layered-yellow-wavesV3.svg";
+
 var LinkScroll = Scroll.Link;
 
 var days = [
@@ -50,6 +52,7 @@ function getMonday(d) {
 }
 
 function App(props) {
+  const [state, dispatch] = useContext(ConcertContext);
   const [date, setDate] = useState();
   const [dateObject, setDateObject] = useState();
 
@@ -70,12 +73,20 @@ function App(props) {
     setDateObject(weekAhead);
 
     setDate(weekAhead.toDateString());
+    dispatch({
+      type: "UPDATE_ITEM",
+      payload: { date: weekAhead },
+    });
   }
   function backWeek() {
     var weekAhead = new Date(dateObject);
     weekAhead.setDate(dateObject.getDate() - 7);
     setDateObject(weekAhead);
     setDate(weekAhead.toDateString());
+    dispatch({
+      type: "UPDATE_ITEM",
+      payload: { date: weekAhead },
+    });
   }
   const download = (image, { name = "img", extension = "jpg" } = {}) => {
     const a = document.createElement("a");
@@ -185,7 +196,6 @@ function App(props) {
               color="inherit"
               variant="outlined"
               endIcon={<ArrowDownIcon />}
-           
             >
               <LinkScroll
                 activeClass="active"
@@ -198,9 +208,7 @@ function App(props) {
             </Button>
           )}
           <header id="concertContent" className="App-header">
-            <ConcertList date={date}>
-              {" "}
-            </ConcertList>
+            <ConcertList date={date}> </ConcertList>
           </header>
         </div>
       ) : (
@@ -292,9 +300,7 @@ function App(props) {
             </Button>
           )}
           <header id="concertContent" className="App-header">
-            <ConcertList  date={date}>
-              {" "}
-            </ConcertList>
+            <ConcertList date={date}> </ConcertList>
           </header>
         </div>
       )}
