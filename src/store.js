@@ -4,7 +4,7 @@ export const ConcertContext = createContext();
 
 const initialState = {
   events: [],
-  date: "",
+  date: new Date(),
 };
 const reducer = (state, action) => {
   switch (action.type) {
