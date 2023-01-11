@@ -86,14 +86,14 @@ const monthNames = [
 ];
 
 export default function BasicModal(props) {
-  const [open, setOpen] = React.useState(true);
-  const [week, setWeek] = React.useState(new Date());
-  const [month, setMonth] = React.useState(monthNames[week.getMonth()]);
   const [state] = useContext(ConcertContext);
+  const [open, setOpen] = React.useState(true);
+  const [week, setWeek] = React.useState(state.date);
+  const [month, setMonth] = React.useState(monthNames[week.getMonth()]);
   const [events, setEvents] = React.useState([]);
   const handleClose = () => setOpen(false);
   const [currentMonth, setCurrentMonth] = React.useState(
-    startOfMonth(new Date())
+    startOfMonth(state.date)
   );
 
   const matches = useMediaQuery("(min-width:480px)");
