@@ -1,9 +1,10 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { ConcertContext } from "../../store";
 import { Link } from "@mui/material";
 
 const style = {
@@ -31,9 +32,16 @@ const mobileStyle = {
   p: 4,
 };
 export default function BasicModal(props) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(props.open);
+  const [state, dispatch] = useContext(ConcertContext);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    dispatch({
+      type: "UPDATE_MODAL_ABOUT",
+      payload: { showAbout: false },
+    });
+  };
 
   const matches = useMediaQuery("(min-width:480px)");
 

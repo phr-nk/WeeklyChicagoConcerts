@@ -59,6 +59,21 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+const mediumScreenStyle = {
+  position: "absolute",
+  display: "flex",
+  flexDirection: "column",
+
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+
+  width: 800,
+  height: 950,
+  bgcolor: "white",
+  boxShadow: 24,
+  p: 4,
+};
 const mobileStyle = {
   position: "absolute",
   top: "50%",
@@ -86,17 +101,24 @@ const monthNames = [
 ];
 
 export default function BasicModal(props) {
-  const [state] = useContext(ConcertContext);
-  const [open, setOpen] = React.useState(true);
+  const [state, dispatch] = useContext(ConcertContext);
+  const [open, setOpen] = React.useState(props.open);
   const [week, setWeek] = React.useState(state.date);
   const [month, setMonth] = React.useState(monthNames[week.getMonth()]);
   const [events, setEvents] = React.useState([]);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    dispatch({
+      type: "UPDATE_MODAL_CALENDAR",
+      payload: { showCalendar: false },
+    });
+  };
   const [currentMonth, setCurrentMonth] = React.useState(
     startOfMonth(state.date)
   );
 
-  const matches = useMediaQuery("(min-width:480px)");
+  const matchesMobile = useMediaQuery("(min-width:480px)");
+  const matchesMediumScreen = useMediaQuery("(min-width:950x)");
 
   useEffect(() => {
     if (state.events.length > 0) {
@@ -187,7 +209,7 @@ export default function BasicModal(props) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        {!matches ? (
+        {!matchesMobile ? (
           <Box sx={mobileStyle}>
             <WeeklyCalendar week={week}>
               <Typography style={{ textAlign: "center" }}>{month}</Typography>
@@ -261,8 +283,51 @@ export default function BasicModal(props) {
               </WeeklyContainer>
             </WeeklyCalendar>
           </Box>
-        ) : (
+        ) : !matchesMediumScreen ? (
           <Box sx={style}>
+            <MonthlyCalendar
+              currentMonth={currentMonth}
+              onCurrentMonthChange={(date) => setCurrentMonth(date)}
+            >
+              <MonthlyNav />
+              <div className="icsFileContainer">
+                <Tooltip
+                  title="This ICS file and be imported into any calendar software you
+                  use."
+                >
+                  <Button
+                    className="icsButton"
+                    onClick={generateICS}
+                    color="inherit"
+                    variant="outlined"
+                  >
+                    Generate ICS file
+                  </Button>
+                </Tooltip>
+              </div>{" "}
+              <br></br>
+              <div style={{ height: 600 }}>
+                <MonthlyBody events={events}>
+                  <MonthlyDay
+                    renderDay={(data) =>
+                      data.map((item, index) => (
+                        <EventItem
+                          key={index}
+                          title={item.title}
+                          // Format the date here to be in the format you prefer
+                          date={format(item.date, "hh:mm:a")}
+                          link={item.link}
+                          venue={item.venue}
+                        />
+                      ))
+                    }
+                  />
+                </MonthlyBody>
+              </div>
+            </MonthlyCalendar>
+          </Box>
+        ) : (
+          <Box sx={mediumScreenStyle}>
             <MonthlyCalendar
               currentMonth={currentMonth}
               onCurrentMonthChange={(date) => setCurrentMonth(date)}

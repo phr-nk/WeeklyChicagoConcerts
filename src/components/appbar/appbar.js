@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import BasicModal from "../modal/basicModal";
 import AboutModal from "../modal/aboutModal";
 import CalendarModal from "../modal/calendarModal";
-
+import { ConcertContext } from "../../store";
 const appbar = {
   backgroundColor: "wheat",
 };
@@ -22,12 +22,22 @@ var logo = require("../../assets/wcc_logo.png");
 var logo2 = require("../../assets/wcc_logo_oval.png");
 
 export default function MyAppBar() {
+  const [state, dispatch] = useContext(ConcertContext);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [showSubscribe, setShowSubscribe] = React.useState(false);
-  const [showAbout, setShowAbout] = React.useState(false);
-  const [showCalendar, setShowCalendar] = React.useState(false);
+  const [showSubscribe, setShowSubscribe] = React.useState(state.showSubscribe);
+  const [showAbout, setShowAbout] = React.useState(state.showAbout);
+  const [showCalendar, setShowCalendar] = React.useState(state.showCalendar);
+
   const matches = useMediaQuery("(min-width:600px)");
+
+  useEffect(() => {
+    setShowAbout(state.showAbout);
+    setShowSubscribe(state.showSubscribe);
+    setShowCalendar(state.showCalendar);
+  }, []);
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -36,6 +46,9 @@ export default function MyAppBar() {
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+    setShowAbout(false);
+    setShowCalendar(false);
+    setShowSubscribe(false);
   };
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -43,6 +56,48 @@ export default function MyAppBar() {
 
   const openModal = (event) => {
     var setting = event.currentTarget.innerHTML;
+    console.log(setting);
+
+    /* 
+    switch (setting) {
+      case "About":
+        dispatch({
+          type: "UPDATE_MODAL_ABOUT",
+          payload: { showAbout: true },
+        });
+        setShowAbout(true);
+        setShowSubscribe(false);
+        setShowCalendar(false);
+        setAnchorElUser(false);
+
+        break;
+      case "Subscribe":
+        dispatch({
+          type: "UPDATE_MODAL_SUBSCRIBE",
+          payload: { showSubscribe: true },
+        });
+        setShowAbout(false);
+        setShowSubscribe(true);
+        setShowCalendar(false);
+        setAnchorElUser(false);
+        break;
+      case "My Concert Calendar":
+        dispatch({
+          type: "UPDATE_MODAL_CALENDAR",
+          payload: { showCalendar: true },
+        });
+        setShowAbout(false);
+        setShowSubscribe(false);
+        setShowCalendar(true);
+        setAnchorElUser(false);
+        break;
+      default:
+        setShowAbout(false);
+        setShowSubscribe(false);
+        setShowCalendar(false);
+    }
+    */
+
     if (setting == "About") {
       if (showAbout) {
         setShowAbout(false);
@@ -80,17 +135,21 @@ export default function MyAppBar() {
       setAnchorElUser(false);
     }
   };
+
   const closeModal = () => {
     setAnchorElUser(true);
     setShowSubscribe(false);
     setShowAbout(false);
   };
 
+  console.log("About:" + showAbout);
+  console.log("Subscribe:" + showSubscribe);
+  console.log("Calendar:" + showCalendar);
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {showSubscribe ? <BasicModal /> : null}
-      {showCalendar ? <CalendarModal /> : null}
-      {showAbout ? <AboutModal /> : null}
+      {showSubscribe ? <BasicModal open={showSubscribe} /> : null}
+      {showCalendar ? <CalendarModal open={showCalendar} /> : null}
+      {showAbout ? <AboutModal open={showAbout} /> : null}
       <AppBar position="static" sx={appbar} elevation={0}>
         <Toolbar>
           {!matches ? (
