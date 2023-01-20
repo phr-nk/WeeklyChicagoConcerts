@@ -56,7 +56,6 @@ export default function MyAppBar() {
 
   const openModal = (event) => {
     var setting = event.currentTarget.innerHTML;
-    console.log(setting);
 
     /* 
     switch (setting) {
@@ -142,9 +141,6 @@ export default function MyAppBar() {
     setShowAbout(false);
   };
 
-  console.log("About:" + showAbout);
-  console.log("Subscribe:" + showSubscribe);
-  console.log("Calendar:" + showCalendar);
   return (
     <Box sx={{ flexGrow: 1 }}>
       {showSubscribe ? <BasicModal open={showSubscribe} /> : null}

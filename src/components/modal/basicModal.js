@@ -49,7 +49,6 @@ export default function BasicModal(props) {
   const matches = useMediaQuery("(min-width:600px)");
 
   useEffect(() => {}, []);
-  console.log(state);
   return (
     <div>
       <Modal
