@@ -66,10 +66,10 @@ const mediumScreenStyle = {
 
   top: "50%",
   left: "50%",
-  transform: "translate(-50%, -50%)",
+  transform: "translate(-50%, -53%)",
 
-  width: 800,
-  height: 950,
+  width: 900,
+  height: 800,
   bgcolor: "white",
   boxShadow: 24,
   p: 4,
@@ -118,7 +118,7 @@ export default function BasicModal(props) {
   );
 
   const matchesMobile = useMediaQuery("(min-width:480px)");
-  const matchesMediumScreen = useMediaQuery("(min-width:950x)");
+  const matchesMediumScreen = useMediaQuery("(min-width:1500px)");
 
   useEffect(() => {
     if (state.events.length > 0) {
