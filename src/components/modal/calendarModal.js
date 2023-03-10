@@ -118,7 +118,7 @@ export default function BasicModal(props) {
   );
 
   const matchesMobile = useMediaQuery("(min-width:480px)");
-  const matchesMediumScreen = useMediaQuery("(min-width:1500px)");
+  const matchesMediumScreen = useMediaQuery("(min-width:1650px)");
 
   useEffect(() => {
     if (state.events.length > 0) {
@@ -283,7 +283,7 @@ export default function BasicModal(props) {
               </WeeklyContainer>
             </WeeklyCalendar>
           </Box>
-        ) : !matchesMediumScreen ? (
+        ) : matchesMediumScreen ? (
           <Box sx={style}>
             <MonthlyCalendar
               currentMonth={currentMonth}
