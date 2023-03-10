@@ -83,6 +83,7 @@ function parseDaytime(time) {
 const groupBy = (key) => (array) =>
   array.reduce((objectsByKeyValue, obj) => {
     const value = obj[key];
+
     objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
     return objectsByKeyValue;
   }, {});
@@ -133,6 +134,7 @@ function ConcertList(props) {
   const [selectedVariant, setVariant] = useState("outline");
   const [selectedColor, setColor] = useState("default");
   const [searchText, setSearchText] = useState("");
+  const [searchConcertText, setSearchConcertText] = useState("");
   const [data, setData] = useState("");
   const [longLoad, setLongLoad] = useState(false);
 
@@ -149,6 +151,7 @@ function ConcertList(props) {
       const venuesGrouped = groupByVenue(res);
       const g = splitGenres(res);
 
+      console.log(daysGrouped);
       setGenres(g);
       setVenues(venuesGrouped);
       orderData(daysGrouped);
@@ -224,6 +227,7 @@ function ConcertList(props) {
         /*  
             This regex should be done when creating the API so we don't have to do it here
         */
+
         var element = el;
         var result = el.time.replace(/doors:|show:|/gi, "").trim();
 
@@ -242,7 +246,10 @@ function ConcertList(props) {
         var new_date = new Date(date_parsed + parseDaytime(result));
 
         element.dateObject = new_date;
-        daysInOrder[k].push(element);
+        console.log(element.dayOfWeek);
+        if (element.dayOfWeek != null) {
+          daysInOrder[k].push(element);
+        }
       });
     });
 
@@ -253,6 +260,7 @@ function ConcertList(props) {
     });
 
     setArtists(daysInOrder);
+    console.log(artists);
   }
 
   const handleChange = (event) => {
@@ -380,35 +388,85 @@ function ConcertList(props) {
               ))}
             </Select>
           </FormControl>
+          <br></br>
+          <br></br>
 
+          <TextField
+            label="Search for Concert"
+            size="large"
+            onChange={(e) => setSearchConcertText(e.target.value)}
+          ></TextField>
           <div className="concertList">
             {data != "" ? (
               <div className="venueContainer">
-                {Object.entries(artists).map(([k, v]) => {
-                  if (selectedVenue === "all") {
-                    return (
-                      <Day
-                        dateObj={getDateFromDay(daysObj[k])}
-                        day={formatDate(getDateFromDay(daysObj[k]))}
-                        date={props.date}
-                        venue={k}
-                        concerts={v}
-                        genres={genreList}
-                      />
-                    );
-                  } else {
-                    return (
-                      <Day
-                        dateObj={getDateFromDay(daysObj[k])}
-                        day={formatDate(getDateFromDay(daysObj[k]))}
-                        date={props.date}
-                        venue={k}
-                        concerts={returnConcertsForVenue(selectedVenue, v)}
-                        genres={genreList}
-                      />
-                    );
-                  }
-                })}
+                {searchConcertText == ""
+                  ? Object.entries(artists).map(([k, v]) => {
+                      if (selectedVenue === "all") {
+                        return (
+                          <Day
+                            dateObj={getDateFromDay(daysObj[k])}
+                            day={formatDate(getDateFromDay(daysObj[k]))}
+                            date={props.date}
+                            venue={k}
+                            concerts={v}
+                            genres={genreList}
+                          />
+                        );
+                      } else {
+                        return (
+                          <Day
+                            dateObj={getDateFromDay(daysObj[k])}
+                            day={formatDate(getDateFromDay(daysObj[k]))}
+                            date={props.date}
+                            venue={k}
+                            concerts={returnConcertsForVenue(selectedVenue, v)}
+                            genres={genreList}
+                          />
+                        );
+                      }
+                    })
+                  : Object.entries(artists)
+                      .filter((q) => {
+                        //console.log(artists);
+                        // console.log(q);
+                        // console.log(q[1]);
+                        return q[1].filter((x) => {
+                          console.log(x);
+                          return (
+                            x.name
+                              .toLowerCase()
+                              .indexOf(searchConcertText.toLowerCase()) - 1
+                          );
+                        });
+                      })
+                      .map(([k, v]) => {
+                        if (selectedVenue === "all") {
+                          return (
+                            <Day
+                              dateObj={getDateFromDay(daysObj[k])}
+                              day={formatDate(getDateFromDay(daysObj[k]))}
+                              date={props.date}
+                              venue={k}
+                              concerts={v}
+                              genres={genreList}
+                            />
+                          );
+                        } else {
+                          return (
+                            <Day
+                              dateObj={getDateFromDay(daysObj[k])}
+                              day={formatDate(getDateFromDay(daysObj[k]))}
+                              date={props.date}
+                              venue={k}
+                              concerts={returnConcertsForVenue(
+                                selectedVenue,
+                                v
+                              )}
+                              genres={genreList}
+                            />
+                          );
+                        }
+                      })}
               </div>
             ) : (
               <div className="spinner">
