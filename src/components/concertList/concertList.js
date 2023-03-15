@@ -111,7 +111,6 @@ function splitGenres(shows) {
     for (var w = 0; w < genres.length; w++) {
       var genre = genres[w];
       if (genre != "") {
-        //console.log(returnedGenres)
         genresObj[genre].push(shows[y]);
       }
     }
@@ -144,7 +143,7 @@ function ConcertList(props) {
     Friday: [],
     Saturday: [],
     Sunday: [],
-  })
+  });
   const [longLoad, setLongLoad] = useState(false);
 
   const matches = useMediaQuery("(min-width:600px)");
@@ -160,7 +159,6 @@ function ConcertList(props) {
       const venuesGrouped = groupByVenue(res);
       const g = splitGenres(res);
 
-  
       setGenres(g);
       setVenues(venuesGrouped);
       orderData(daysGrouped);
@@ -268,38 +266,29 @@ function ConcertList(props) {
     });
 
     setArtists(daysInOrder);
-
   }
 
   const handlefilterConcerts = (event) => {
-
-    setSearchConcertText(event)
-
-
-    var filteredList = filteredArtists ;
+    setSearchConcertText(event);
+    var filteredList = filteredArtists;
 
     Object.entries(artists).forEach((q) => {
-      var filt = q[1].filter((x) =>{ 
-        if(event != "" )
-        {
+      var filt = q[1].filter((x) => {
+        if (event != "") {
+          return x.name.toLowerCase().startsWith(event);
+        }
+      });
 
-          return x.name.toLowerCase().includes(event);
-        }
-       
-        })
-       
-        if(filt.length !== 0){
-          console.log(filt)
-          var day = filt[0].dayOfWeek;
-          filteredList[day] = filt;
-        }
-  
-    
-      })
-      
-      setFilteredArtists(filteredList)
-    
-  }
+      if (filt.length !== 0) {
+        var day = filt[0].dayOfWeek;
+        filteredList[day] = filt;
+      } else {
+        filteredList[q[0]] = [];
+      }
+    });
+
+    setFilteredArtists(filteredList);
+  };
 
   const handleChange = (event) => {
     setGenreList((current) => [...event.target.value]);
@@ -383,7 +372,6 @@ function ConcertList(props) {
                         />
                       }
                       onDelete={(e) => handleDelete(e, value)}
-                   
                     />
                   ))}
                 </div>
@@ -426,17 +414,29 @@ function ConcertList(props) {
             </Select>
           </FormControl>
           <br></br>
-          <br></br>
+          {!matches ? (
+            <TextField
+              label="Search for a Concert"
+              variant="standard"
+              margin="dense"
+              size="large"
+              onChange={(e) => handlefilterConcerts(e.target.value)}
+            ></TextField>
+          ) : (
+            <TextField
+              label="Search for a Concert"
+              style={{ width: "40vw" }}
+              variant="standard"
+              margin="dense"
+              size="large"
+              onChange={(e) => handlefilterConcerts(e.target.value)}
+            ></TextField>
+          )}
 
-          <TextField
-            label="Search for a Concert"
-            size="large"
-            onChange={(e) => handlefilterConcerts(e.target.value)}
-          ></TextField>
           <div className="concertList">
             {data != "" ? (
               <div className="venueContainer">
-                {searchConcertText == "" 
+                {searchConcertText == ""
                   ? Object.entries(artists).map(([k, v]) => {
                       if (selectedVenue === "all") {
                         return (
@@ -463,31 +463,30 @@ function ConcertList(props) {
                       }
                     })
                   : Object.entries(filteredArtists).map(([k, v]) => {
-                  
-                    if (selectedVenue === "all") {
-                      return (
-                        <Day
-                          dateObj={getDateFromDay(daysObj[k])}
-                          day={formatDate(getDateFromDay(daysObj[k]))}
-                          date={props.date}
-                          venue={k}
-                          concerts={v}
-                          genres={genreList}
-                        />
-                      );
-                    } else {
-                      return (
-                        <Day
-                          dateObj={getDateFromDay(daysObj[k])}
-                          day={formatDate(getDateFromDay(daysObj[k]))}
-                          date={props.date}
-                          venue={k}
-                          concerts={returnConcertsForVenue(selectedVenue, v)}
-                          genres={genreList}
-                        />
-                      );
-                    }
-                  })}
+                      if (selectedVenue === "all") {
+                        return (
+                          <Day
+                            dateObj={getDateFromDay(daysObj[k])}
+                            day={formatDate(getDateFromDay(daysObj[k]))}
+                            date={props.date}
+                            venue={k}
+                            concerts={v}
+                            genres={genreList}
+                          />
+                        );
+                      } else {
+                        return (
+                          <Day
+                            dateObj={getDateFromDay(daysObj[k])}
+                            day={formatDate(getDateFromDay(daysObj[k]))}
+                            date={props.date}
+                            venue={k}
+                            concerts={returnConcertsForVenue(selectedVenue, v)}
+                            genres={genreList}
+                          />
+                        );
+                      }
+                    })}
               </div>
             ) : (
               <div className="spinner">
