@@ -17,6 +17,7 @@ import Button from "@mui/material/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpIcon from '@mui/icons-material/ArrowUpward';
 import { useScreenshot, createFileName } from "use-react-screenshot";
 import html2canvas from "html2canvas";
 import { createTheme } from "@mui/material/styles";
@@ -27,6 +28,7 @@ import * as Scroll from "react-scroll";
 import waves from "./assets/layered-yellow-wavesV3.svg";
 
 var LinkScroll = Scroll.Link;
+
 
 var days = [
   "Sunday",
@@ -51,21 +53,45 @@ function getMonday(d) {
   return new Date(d.setDate(diff));
 }
 
+function vh(v) {
+  var h = Math.max(
+    document.documentElement.clientHeight,
+    window.innerHeight || 0
+  );
+  return (v * h) / 100;
+}
+
 function App(props) {
   const [state, dispatch] = useContext(ConcertContext);
   const [date, setDate] = useState();
   const [dateObject, setDateObject] = useState();
-
+  const[isSticky, setIsSticky] = useState(false);
+  const [buttonText, setButtonText] = useState("Take me to the current day")
+  const [buttonStyle, setButtonStyle] = useState()
   const [width, setWidth] = useState(300);
   const [image, takeScreenShot] = useScreenshot();
 
   const matches = useMediaQuery("(min-width:600px)");
-
+ 
   useEffect(() => {
     var date = getMonday(new Date());
     var string_date = date.toDateString();
     setDate(string_date);
     setDateObject(date);
+
+
+    //track scroll height
+    document.addEventListener("scroll", (e) => {
+      if (window.scrollY > window.outerHeight - vh(15)){
+        setIsSticky(true) 
+      
+      }else{
+        setIsSticky(false);
+       
+      } 
+    });
+    
+
   }, []);
   function advanceWeek() {
     var weekAhead = new Date(dateObject);
@@ -183,30 +209,51 @@ function App(props) {
           </div>
           <br></br>
           {matches ? (
-            <Button
-              onClick={() => takePicture2()}
-              color="inherit"
-              variant="outlined"
-              endIcon={<ArrowDownIcon />}
-            >
-              Download Picture
-            </Button>
-          ) : (
-            <Button
-              color="inherit"
-              variant="outlined"
-              endIcon={<ArrowDownIcon />}
-            >
-              <LinkScroll
-                activeClass="active"
-                to={days[new Date().getDay()]}
-                spy={true}
-                smooth={true}
+          <Button
+                onClick={() => takePicture2()}
+                color="inherit"
+                variant="outlined"
+                endIcon={<ArrowDownIcon />}
               >
+                Download Picture
+              </Button>
+          ) : !isSticky ? (
+                <Button
+                  color="inherit"
+                  variant="outlined"
+                  endIcon={<ArrowDownIcon />}
+
+                >
+                  <LinkScroll
+                    activeClass="active"
+                    to={days[new Date().getDay()]}
+                    spy={true}
+                    smooth={true}
+                    
+                  >
                 Take me to the current day
-              </LinkScroll>
-            </Button>
-          )}
+                  </LinkScroll>
+                </Button>
+                ) : (
+                <div style={{position:"-webkit-sticky", position:"sticky", top:0, zIndex:1000}}>
+                <Button
+                  color="warning"
+                  variant="contained"
+                  endIcon={<ArrowUpIcon />}
+                  style={buttonStyle}
+                >
+                  <LinkScroll
+                    activeClass="active"
+                    to={"main-appbar"}
+                    spy={true}
+                    smooth={true}
+                    
+                  >
+                 Take me back to the top
+                  </LinkScroll>
+                </Button>
+                </div>
+                )}
           <header id="concertContent" className="App-header">
             <ConcertList date={date}> </ConcertList>
           </header>
@@ -275,30 +322,52 @@ function App(props) {
           </div>
           <br></br>
           {matches ? (
-            <Button
-              onClick={() => takePicture2()}
-              color="inherit"
-              variant="outlined"
-              endIcon={<ArrowDownIcon />}
-            >
-              Download Picture
-            </Button>
-          ) : (
-            <Button
-              color="inherit"
-              variant="outlined"
-              endIcon={<ArrowDownIcon />}
-            >
-              <LinkScroll
-                activeClass="active"
-                to={days[new Date().getDay()]}
-                spy={true}
-                smooth={true}
+          <Button
+                onClick={() => takePicture2()}
+                color="inherit"
+                variant="outlined"
+                endIcon={<ArrowDownIcon />}
               >
+                Download Picture
+              </Button>
+          ) : !isSticky ? (
+                <Button
+                  color="inherit"
+                  variant="outlined"
+                  endIcon={<ArrowDownIcon />}
+
+                >
+                  <LinkScroll
+                    activeClass="active"
+                    to={days[new Date().getDay()]}
+                    spy={true}
+                    smooth={true}
+                    
+                  >
                 Take me to the current day
-              </LinkScroll>
-            </Button>
-          )}
+                  </LinkScroll>
+                </Button>
+                ) : (
+                  <div style={{position:"-webkit-sticky", position:"sticky", top:0, zIndex:1000}}>
+                <Button
+                 color="warning"
+                  variant="contained"
+                  endIcon={<ArrowUpIcon />}
+                  style={buttonStyle}
+                >
+                  <LinkScroll
+                    activeClass="active"
+                    to={"main-appbar"}
+                    spy={true}
+                    smooth={true}
+                    
+                  >
+                 Take me back to the top
+                  </LinkScroll>
+                </Button>
+                </div>
+                )}
+              
           <header id="concertContent" className="App-header">
             <ConcertList date={date}> </ConcertList>
           </header>
