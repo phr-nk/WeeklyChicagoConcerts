@@ -275,7 +275,7 @@ function ConcertList(props) {
     Object.entries(artists).forEach((q) => {
       var filt = q[1].filter((x) => {
         if (event != "") {
-          return x.name.toLowerCase().startsWith(event);
+          return x.name.toLowerCase().includes(event.toLowerCase());
         }
       });
 
