@@ -142,7 +142,7 @@ export default function MyAppBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} className="main-appbar">
       {showSubscribe ? <BasicModal open={showSubscribe} /> : null}
       {showCalendar ? <CalendarModal open={showCalendar} /> : null}
       {showAbout ? <AboutModal open={showAbout} /> : null}
